@@ -26,6 +26,7 @@
                         <li><a class="dropdown-item" href="<?php echo REGIONES ?>">Regiones</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="<?php echo MARCAS ?>">Marcas</a></li>
+                        <li><a class="dropdown-item" href="<?php echo ATRIBUTOS ?>">Atributos</a></li>
                         <li><a class="dropdown-item" href="<?php echo PERSONAS ?>">Personas</a></li>
                         <li><a class="dropdown-item" href="<?php echo ROLES ?>">Roles</a></li>
                         <li><a class="dropdown-item" href="usuarios.php">Usuarios</a></li>

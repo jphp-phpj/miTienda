@@ -7,3 +7,4 @@ define('COMUNAS', BASE_URL . 'comunas/');
 define('MARCAS', BASE_URL . 'marcas/');
 define('PERSONAS', BASE_URL . 'personas/');
 define('USUARIOS', BASE_URL . 'usuarios/');
+define('ATRIBUTOS', BASE_URL . 'atributos/');

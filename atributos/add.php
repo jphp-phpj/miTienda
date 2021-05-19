@@ -5,68 +5,36 @@ error_reporting(E_ALL);
 
 require('../class/conexion.php');
 require('../class/rutas.php');
+//validar que los datos del formulario lleguen via post
+if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
+    # code...
+    #print_r($_POST);
 
-// lista de roles
-$res = $mbd->query("SELECT id, nombre FROM roles ORDER BY nombre");
-$roles = $res->fetchAll();
-
-// lista de atributos
-$res = $mbd->query("SELECT id, nombre FROM atributos ORDER BY nombre");
-$atributos = $res->fetchall(); 
-
-// validar formulario
-if (isset($_POST['confirm']) && $_POST['confirm'] == 1) { 
-
-    $nombre = trim(strip_tags($_POST['nombre']));
-    $rut = trim(strip_tags($_POST['rut']));
-    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-    $direccion = trim(strip_tags($_POST['direccion']));
-    $comuna = (int) $_POST['comuna'];
-    $fecha_nac = trim(strip_tags($_POST['fecha_nac']));
-    $telefono = (int) $_POST['telefono'];
-    $rol = (int) $_POST['rol'];
-
-    if (!$nombre || strlen($nombre) < 5) {
-        $msg = 'Ingrese al menos 5 caracteres de la Persona';
-    }elseif(!$rut || strlen($rut) < 9) {
-        $msg = 'El rut no es valido';
-    }elseif(!$email) {
-        $msg = 'Ingrese un e-mail valido';
-    }elseif(!$direccion) {
-        $msg = 'Ingrese Dirección';
-    }elseif($comuna <= 0) {
-        $msg = 'Seleccione una Comuna';
-    }elseif(!$fecha_nac) {
-        $msg = 'Ingrese una fecha de Nacimiento';
-    }elseif($telefono <= 0 || strlen($telefono) < 9) {
-        $msg = 'Ingrese un Número de Telefono';
-    }elseif($rol <= 0) {
-        $msg = 'Seleccione un Rol';
+    $nombre = trim(strip_tags($_POST['nombre'])); // strip tags deshabilita las tags para prevenir scrips
+    
+    if (!$nombre){
+    #echo 'Debe ingresar el nombre de el Atributo';   // no se ve bien y no utilizar
+        $msg = 'Debe ingresar un Atributo';
     }else {
-        // verificar que la persona ingresada no este en la tabla persona
-        // validad registro de email
-        $res = $mbd->prepare("SELECT id FROM personas WHERE email = ?");
-        $res->bindParam(1, $email);
+
+        // verificar que el Atributo ingresada no exista en tabla de la atributos
+        $res = $mbd->prepare("SELECT id FROM atributos WHERE nombre = ?"); // '?' es una flag o incognita
+        $res->bindParam(1, $nombre);
         $res->execute();
+        $atributo = $res->fetch();
 
-        $persona = $res->fetch();
+        // print_r($atributo);exit;
+        if ($atributo) {
+            $msg = 'El Atributo ingresado ya existe, ingresar nuevo Atributo';
 
-        if($persona){
-            $msg = 'Esta persona ya está ingresada... Intente nuevamente';
-
-        }else {
-            $res = $mbd->prepare("INSERT INTO personas VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?,now(), now())");
-            $res->bindParam(1,$nombre);
-            $res->bindParam(2,$rut);
-            $res->bindParam(3,$email);
-            $res->bindParam(4,$direccion);
-            $res->bindParam(5,$fecha_nac);
-            $res->bindParam(6,$telefono);
-            $res->bindParam(7,$rol);
-            $res->bindParam(8,$comuna);
+        }else { 
+            #preparamos la consulta antes de ser enviada a la base de datos
+            $res = $mbd->prepare("INSERT INTO atributos VALUES(null, ?)");
+            #sanitizamos el dato indicando cual es la posicion del ? en el orden en el que aparece en la consulta anterior    
+            $res->bindParam(1, $nombre);
+            #ejecutamos la consulta sanatizada
             $res->execute();
-
-                // chequea que exita el ROW recien creado.
+            #rescatamos el numero de filas insertadas en la tabla
             $row = $res->rowCount();
 
             if($row){
@@ -84,7 +52,7 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personas</title>
+    <title>Agregar Atributo</title>
     <!--Enlaces CDN de Bootstrap-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script> -->
@@ -102,7 +70,7 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
     <!-- seccion de contenido principal -->
         <section>
             <div class="col-md-6 offset-md-3">
-                <h1>Nueva Personas</h1>
+                <h1>Nuevo Atributo</h1>
 
                 <!---mensaje de validacion y errores ---> 
                 <?php if(isset($msg)):  ?> 
@@ -110,74 +78,18 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
                         <?php echo $msg; ?>
                     </p>
                 <?php endif; ?>
-
+                    <!-- formulario - recibe input de usuario y se lo otorga a variable name="" -->
                 <form action="" method="post">
                     <div class="form-group mb-3">
-                        <label for="">Nombre<span class="text-danger">*</span></label> 
-                        <input type="text" name="nombre" value="<?php if(isset($_POST['nombre'])) echo $_POST['nombre']; ?>" 
-                            class="form-control" placeholder="Ingrese el nombre de la Persona">
+                        <label for="">Atributo<span class="text-danger">*</span></label> 
+                        <input type="text" name="nombre" class="form-control" placeholder="Ingrese un Atributo">
                     </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">Rut<span class="text-danger">*</span></label> 
-                        <input type="text" name="rut" value="<?php if(isset($_POST['rut'])) echo $_POST['rut']; ?>" 
-                            class="form-control" placeholder="Ingrese el RUT de la persona">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">E-mail<span class="text-danger">*</span></label> 
-                        <input type="email" name="email" value="<?php if(isset($_POST['email'])) echo $_POST['email']; ?>" 
-                            class="form-control" placeholder="Ingrese el E-mail de la Persona">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">Dirección<span class="text-danger">*</span></label> 
-                        <input type="text" name="direccion" value="<?php if(isset($_POST['direccion'])) echo $_POST['direccion']; ?>" 
-                            class="form-control" placeholder="Ingrese la Dirección de la Persona">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">Comuna<span class="text-danger">*</span></label> 
-                        <select name="comuna" class="form-control">
-                            <option value="">Seleccione...</option>
-
-                            <?php foreach($atributos as $comuna): ?>
-                                <option value="<?php echo $comuna['id']; ?>"></option>
-                                    <?php echo $comuna['nombre']; ?>
-                            <?php endforeach; ?>
-                            
-                        </select>                    
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">Fecha de Nacimiento<span class="text-danger">*</span></label> 
-                        <input type="date" name="fecha_nac" class="form-control" placeholder="Ingrese fech de nacimiento de la Persona">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">Teléfono<span class="text-danger">*</span></label> 
-                        <input type="number" name="telefono" value="<?php if(isset($_POST['telefono'])) echo $_POST['telefono']; ?>
-                            class="form-control" placeholder="Ingrese el numero de Teléfono (solo numeros)">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">Rol<span class="text-danger">*</span></label> 
-                        <select name="rol" class="form-control">
-                            <option value="">Seleccione...</option>
-
-                            <?php foreach($roles as $rol): ?>
-                                <option value="<?php echo $rol['id']; ?>"></option>
-                                    <?php echo $rol['nombre']; ?>
-                            <?php endforeach; ?>
-
-                        </select>
-                    </div> 
-
                     <div class="form-group mb-3">
                         <input type="hidden" name="confirm" value="1">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         <a href="index.php" class="btn btn-link">Volver</a>
                     </div>
+                    
                 </form>
             </div>
         </section>

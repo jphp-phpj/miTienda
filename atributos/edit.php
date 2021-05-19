@@ -13,10 +13,10 @@ if (isset($_GET['id'])) {
     //recuperar el dato que viene de la variable
     $id = (int) $_GET['id']; //transforma el dato $_GET a entero
     // consultar si hay un ID con el id enviado por GET
-    $res = $mbd->prepare("SELECT id, nombre, created_at, updated_at FROM personas WHERE id = ?");
+    $res = $mbd->prepare("SELECT id, nombre FROM atributos WHERE id = ?");
     $res->bindParam(1, $id);
     $res->execute();
-    $persona = $res->fetch();
+    $atributos = $res->fetch();
 
     // validar formulario
     if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
@@ -24,9 +24,9 @@ if (isset($_GET['id'])) {
         $nombre = trim(strip_tags($_POST['nombre']));
 
         if (!$nombre) {
-            $msg = 'debe ingresar el nombre de la persona';
+            $msg = 'debe ingresar el nombre de la atributos';
         } else {
-            $res = $mbd->prepare("UPDATE personas SET nombre = ?, updated_at = now() WHERE id = ?");
+            $res = $mbd->prepare("UPDATE atributos SET nombre = ? WHERE id = ?");
             $res->bindParam(1, $nombre);
             $res->bindParam(2, $id);
             $res->execute();
@@ -53,7 +53,7 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Persona</title>
+    <title>Atributo</title>
 
     <!--Enlaces CDN de Bootstrap-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
@@ -75,25 +75,25 @@ if (isset($_GET['id'])) {
         <!-- seccion de contenido principal -->
         <section>
             <div class="col-md-6 offset-md-3">
-                <h1>Información de la Persona</h1>
-                <!--- Lista de personas  --->
+                <h1>Información de Atributo</h1>
+                <!--- Lista de atributos  --->
                 <?php if (isset($msg)) : ?>
                     <p class="alert alert-success">
                         <?php echo $msg; ?>
                     </p>
                 <?php endif; ?>
 
-                <!-- formulario para editar persona  -->
-                <?php if ($persona) : ?>
+                <!-- formulario para editar atributos  -->
+                <?php if ($atributos) : ?>
                     <form action="" method="post">
                         <div class="form-group mb-3">
-                            <label for="">Persona</label> <span class="text-danger">*</span>
-                            <input type="text" name="nombre" value="<?php echo $persona['nombre'] ?>" class="form-control" placeholder="Ingrese la Marca">
+                            <label for="">Atributo</label> <span class="text-danger">*</span>
+                            <input type="text" name="nombre" value="<?php echo $atributos['nombre'] ?>" class="form-control" placeholder="Ingrese un atributo">
                         </div>
                         <div class="form-group mb-3">
                             <input type="hidden" name="confirm" value="1">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="show.php?id=<?php echo $persona['id'] ?>" class="btn bnt-link">Volver</a>
+                            <a href="show.php?id=<?php echo $atributos['id'] ?>" class="btn bnt-link">Volver</a>
                         </div>
                     </form>
                 <?php else : ?>
