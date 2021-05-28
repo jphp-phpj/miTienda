@@ -54,8 +54,10 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar producto</title>
     <!--Enlaces CDN de Bootstrap-->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script> -->
     
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <script src="../js/bootstrap.min.js"></script>    
@@ -70,7 +72,7 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
     <!-- seccion de contenido principal -->
         <section>
             <div class="col-md-6 offset-md-3">
-                <h1>Nuevo producto</h1>
+                <h1>Nuevo Producto</h1>
 
                 <!---mensaje de validacion y errores ---> 
                 <?php if(isset($msg)):  ?> 
@@ -81,8 +83,8 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
                     <!-- formulario - recibe input de usuario y se lo otorga a variable name="" -->
                 <form action="" method="post">
                     <div class="form-group mb-3">
-                        <label for="">producto<span class="text-danger">*</span></label> 
-                        <input type="text" name="nombre" class="form-control" placeholder="Ingrese un producto">
+                        <label for="">Producto<span class="text-danger">*</span></label> 
+                        <input type="text" name="nombre" class="form-control" placeholder="Ingrese un Producto">
                     </div>
                     <div class="form-group mb-3">
                         <input type="hidden" name="confirm" value="1">

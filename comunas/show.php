@@ -96,7 +96,7 @@ if (isset($_GET['id'])) {
         </section>
         <!-- pie de pagina -->
         <footer>
-            footer
+        <h2>-- here goes the footer --</h2>
         </footer>
     </div>
 </body>

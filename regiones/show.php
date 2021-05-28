@@ -3,6 +3,8 @@ ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+
 //llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
 require('../class/rutas.php');
@@ -25,6 +27,8 @@ if (isset($_GET['id'])) {
 
 ?>
 
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] != 1): ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,8 +40,6 @@ if (isset($_GET['id'])) {
     <!--Enlaces CDN de Bootstrap-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script> -->
-
-    
     <!-- link indica que archivos utilizar y script indica que script utilizar -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <script src="../js/bootstrap.min.js"></script>    
@@ -93,6 +95,8 @@ if (isset($_GET['id'])) {
                 <!-- botones  -->
             <p>
                 <a href="index.php" class="btn btn-light">Volver</a>
+
+                <?php  ?>
                 <a href="edit.php?id=<?php echo $reg['id'] ?> " class="btn btn-primary">Editar</a>
                 <a href="../comunas/add.php?id=<?php echo $id; ?> " class="btn btn-success">Agregar Comuna</a>
 
@@ -111,3 +115,10 @@ if (isset($_GET['id'])) {
     </div>
 </body>
 </html>
+
+<?php else: ?>
+    <script>
+        alert('Acceso indebido');
+        window.location = "<?php echo BASE_URL; ?>";
+    </script>
+<?php endif; ?>

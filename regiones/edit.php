@@ -3,7 +3,7 @@ ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
+session_start();
 
 //llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
@@ -37,8 +37,8 @@ if (isset($_GET['id'])) {
             $row = $res->rowCount(); // recuperamos el numero de filas afectadas por la consulta
 
             if ($row) {
-                $msg = 'ok';
-                header('Location: show.php?id=' . $id . '&m=' . $msg);
+                $_SESSION['success'] = 'La región se ha modificado correctamente';
+                header('Location: show.php?id=' . $id );
             }
         }
     }
@@ -49,6 +49,8 @@ if (isset($_GET['id'])) {
 // }    
 
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -111,3 +113,10 @@ if (isset($_GET['id'])) {
     </div>
 </body>
 </html>
+
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "<?php echo BASE_URL; ?>";
+    </script>
+<?php endif; ?>

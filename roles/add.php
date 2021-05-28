@@ -2,6 +2,8 @@
 
 require('../class/conexion.php');
 require('../class/rutas.php');
+
+session_start();
 //validar que los datos del formulario lleguen via post
 if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
     # code...
@@ -35,13 +37,15 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
             $row = $res->rowCount();
 
             if($row){
-                $msg = 'ok';
-                header('Location: index.php?m=' . $msg);
+                $_SESSION['success'] = 'El se ha registrado correctamente';
+                header('Location: index.php');
             }
         }
     }
 }
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -97,3 +101,10 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
     </div>
 </body>
 </html>
+
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "<?php echo BASE_URL; ?>"
+    </script>
+<?php endif; ?>

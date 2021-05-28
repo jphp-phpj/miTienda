@@ -6,6 +6,9 @@ error_reporting(E_ALL);
 //llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
 require('../class/rutas.php');
+
+session_start();
+
 // validar variable GET id
 if (isset($_GET['id'])) {
 
@@ -24,6 +27,7 @@ if (isset($_GET['id'])) {
 }
 
 ?>
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -110,3 +114,10 @@ if (isset($_GET['id'])) {
     </div>
 </body>
 </html>
+
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "<?php echo BASE_URL; ?>";
+    </script>
+<?php endif; ?>

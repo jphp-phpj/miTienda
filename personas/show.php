@@ -25,22 +25,16 @@ if (isset($_GET['id'])) {
     $res->execute();
     $persona = $res->fetch();
 
-    // preguntar si persona tiene un usuario
-    $res = $mbd->prepare("SELECT id FROM usuarios WHERE persona_id = ?");
+    // preguntar si persona tiene un usuario Y ES ACTIVO O NO
+    $res = $mbd->prepare("SELECT id, activo FROM usuarios WHERE persona_id = ?");
     $res->bindParam(1, $id);
     $res->execute();
 
     $usuario = $res->fetch();
 
-    
-
-
-
     /* echo '<pre>';
     print_r($persona);exit;
     echo '</pre>'; */
-
-
 
 }
 
@@ -125,6 +119,22 @@ if (isset($_GET['id'])) {
                             <td><?php echo $persona['rol']; ?></td>
                         </tr>
                         <tr>
+                            <th>Estado:</th>
+                            <td>    
+                                <?php if($usuario): ?>
+                                    <a href="../usuarios/edit.php?id=<?php echo $usuario['id'] ?>" class="btn-link bnt-sm">Modificar |</a>
+                                <?php endif; ?>
+
+                                <?php if(!empty($usuario) && $usuario['activo'] == 1): ?>
+                                    Activo 
+                                <?php else: ?> 
+                                    Inactivo
+                                <?php endif; ?>
+
+                              
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Creado:</th>
                             <td>
                                 <?php 
@@ -152,7 +162,7 @@ if (isset($_GET['id'])) {
                             Agregar Password
                             </a>
                         <?php else: ?>
-                            <a href="../usuarios/editPassword.php?persona=<?php echo $id; ?>"class="btn btn-primary">
+                            <a href="../usuarios/editPassword.php?persona=<?php echo $id; ?>"class="btn btn-warning">
                             Modificar Password
                             </a>
                         <?php endif; ?>

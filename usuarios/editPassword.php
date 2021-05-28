@@ -14,11 +14,11 @@ if (isset($_GET['persona'])) {
     $id_persona = (int) $_GET['persona']; 
 
     //validamos que la persona exista en la tabla personas
-    $res = $mbd->prepare("SELECT id, nombre FROM personas WHERE id = ?");
+    $res = $mbd->prepare("SELECT u.id, p.nombre FROM usuarios as u INNER JOIN personas as p ON u.persona_id = p.id WHERE persona_id = ?");
     $res->bindParam(1, $id_persona);
     $res->execute();
 
-    $persona = $res->fetch();
+    $usuario = $res->fetch();
 
     if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
         
@@ -32,29 +32,27 @@ if (isset($_GET['persona'])) {
         }else{
             //encriptacion de password
             $clave = sha1($clave);
+            $id = $usuario['id'];
             //registramos al usuario con el id de persona enviado por GET
             //activo => 1 e inactivo => 2
-            $res = $mbd->prepare("INSERT INTO usuarios VALUES(null, ?, 1, ?, now(), now() )");
+            $res = $mbd->prepare("UPDATE usuarios SET clave = ?, updated_at = now() WHERE id = ?");
             $res->bindParam(1, $clave);
-            $res->bindParam(2, $id_persona);
+            $res->bindParam(2, $id);
             $res->execute();
 
             $row = $res->rowCount();
 
             if($row){
-                $_SESSION['success'] = 'El password se ha creado correctamente';
+                $_SESSION['success'] = 'El password se ha modificado correctamente';
                 header('Location: ../personas/show.php?id=' . $id_persona );
             }
-
         }
     }
-
     //print_r($persona);exit;
 }
 
 ?>
-
-<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
+<?php if(isset($_SESSION['autenticado']) && ($_SESSION['usuario_rol'] == 'Administrador' || $_SESSION['usuario_nombre'] == $usuario['nombre'])): ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -62,7 +60,7 @@ if (isset($_GET['persona'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuarios</title>
+    <title>Password</title>
     <!--Enlaces CDN de Bootstrap-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script> -->
@@ -89,8 +87,8 @@ if (isset($_GET['persona'])) {
                     </p>
                 <?php endif; ?>
                 
-                <?php if($persona): ?>
-                    <h3>Agregando password a <?php echo $persona['nombre']; ?> </h3>
+                <?php if($usuario): ?>
+                    <h3>Modificando password a <?php echo $usuario['nombre']; ?> </h3>
                     <form action="" method="post">
                         <div class="form-group mb-3">
                             <label for="">Password <span class="text-danger">*</span></label>

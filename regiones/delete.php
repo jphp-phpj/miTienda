@@ -1,6 +1,9 @@
 <?php
 require('../class/conexion.php');
 require('../class/rutas.php');
+
+session_start();
+
 if(isset($_GET['id'])) {
 
     $id = (int) $_GET['id'];   // guardar variable id que viene por GET

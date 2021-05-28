@@ -5,12 +5,17 @@ error_reporting(E_ALL);
 //llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
 require('../class/rutas.php');
+
+session_start();
 // creamos la consulta a la table 
 $res = $mbd->query("SELECT id, nombre FROM roles ORDER BY nombre");
 $roles = $res->fetchall();  // pido a PDO que disponibilice todos los roles registrados
 // print_r($roles);
 ?>
 
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
+
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,23 +45,7 @@ $roles = $res->fetchall();  // pido a PDO que disponibilice todos los roles regi
         <div class="col-md-6 offset-md-3">
             <h1>Roles</h1>
             <!--- mensajes de modificacion y error   --->
-            <?php if(isset($_GET['m']) && $_GET['m'] == 'ok'): ?>
-                <div class="alert alert-success">
-                    El rol fue modificado correctamente
-                </div>
-            <?php endif; ?>
-
-            <?php if(isset($_GET['e']) && $_GET['e'] == 'ok'): ?>
-                <div class="alert alert-success">
-                    El rol fue eliminado correctamente
-                </div>
-            <?php endif; ?>
-
-            <?php if(isset($_GET['error']) && $_GET['error'] == 'error'): ?>
-                <div class="alert alert-danger">
-                        El rol no se elimino... intente nuevamente
-                </div>
-            <?php endif; ?>
+            <?php include('../partial/mensajes.php')?>
 
             <!-- table de los roles que estan registrados -->
             <table class="table table-hover">
@@ -89,3 +78,10 @@ $roles = $res->fetchall();  // pido a PDO que disponibilice todos los roles regi
     </div>
 </body>
 </html>
+
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "<?php echo BASE_URL; ?>"
+    </script>
+<?php endif; ?>

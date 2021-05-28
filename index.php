@@ -1,6 +1,15 @@
 <?php
-    require('class/rutas.php');
+ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del tag php
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+session_start();
+
+// print_r($_SESSION);exit;
+require('class/rutas.php');
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,9 +35,9 @@
 
     <!-- seccion de contenido principal -->
     <section>
-        <h1>Section</h1>
-        <p>Main content</p>
-
+        <?php if(isset($_SESSION['autenticado'])): ?>
+            <h4>Bienvenido <?php echo $_SESSION['usuario_nombre']; ?></h4>
+        <?php endif; ?>
     </section>
 
         <!-- pie de pagina -->

@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 require('../class/conexion.php');
 require('../class/rutas.php');
 
+session_start();
+
 //lista de roles
 $res = $mbd->query("SELECT id, nombre FROM roles ORDER BY nombre");
 $roles = $res->fetchall();

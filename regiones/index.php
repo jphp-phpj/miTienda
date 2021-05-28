@@ -5,11 +5,17 @@ error_reporting(E_ALL);
 //llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
 require('../class/rutas.php');
+
+session_start();
+
 // creamos la consulta a la table 
 $res = $mbd->query("SELECT id, nombre FROM regiones ORDER BY nombre");
 $reg = $res->fetchall();  // pido a PDO que disponibilice todas las regiones registrados
 // print_r($reg);
 ?>
+
+<!--  que usuario esta autorizado para que el codigo corra 40-> Administrador # en tabla de datos (puede variar) -->
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] != 1 ): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,23 +46,7 @@ $reg = $res->fetchall();  // pido a PDO que disponibilice todas las regiones reg
         <div class="col-md-6 offset-md-3">
             <h1>Regiones</h1>
             <!--- mensajes de modificacion y error   --->
-            <?php if(isset($_GET['m']) && $_GET['m'] == 'ok'): ?>
-                <div class="alert alert-success">
-                    La Región fue modificada correctamente
-                </div>
-            <?php endif; ?>
-
-            <?php if(isset($_GET['e']) && $_GET['e'] == 'ok'): ?>
-                <div class="alert alert-success">
-                    La Región fue eliminada correctamente
-                </div>
-            <?php endif; ?>
-
-            <?php if(isset($_GET['error']) && $_GET['error'] == 'error'): ?>
-                <div class="alert alert-danger">
-                        La Región no se elimino... intente nuevamente
-                </div>
-            <?php endif; ?>
+            <?php include('../partial/mensajes.php'); ?>
 
             <!-- tabla de regiones que estan registrados -->
             <table class="table table-hover">
@@ -79,6 +69,7 @@ $reg = $res->fetchall();  // pido a PDO que disponibilice todas las regiones reg
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <?php if($_SESSION['usuario_rol'] == 40); ?>
             <a href="add.php"class="btn btn-success">Nueva Región</a>
         </div>
         </section>
@@ -89,3 +80,10 @@ $reg = $res->fetchall();  // pido a PDO que disponibilice todas las regiones reg
     </div>
 </body>
 </html>
+
+<?php else: ?>
+    <script>
+        alert('Acceso indebido');
+        window.location = "<?php echo BASE_URL; ?>";
+    </script>
+<?php endif; ?>
