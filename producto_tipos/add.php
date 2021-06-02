@@ -3,6 +3,8 @@ ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+
 require('../class/conexion.php');
 require('../class/rutas.php');
 //validar que los datos del formulario lleguen via post
@@ -52,7 +54,7 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar producto</title>
+    <title>Agregar Producto</title>
     <!--Enlaces CDN de Bootstrap-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" 
     rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">

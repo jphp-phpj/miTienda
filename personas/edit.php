@@ -21,8 +21,11 @@ if (isset($_GET['id'])) {
     $id = (int) $_GET['id'];
 
     $res = $mbd->prepare("SELECT p.id, p.nombre, p.rut, p.email, p.direccion, p.fecha_nac, p.telefono, p.rol_id, 
-    p.comuna_id, r.nombre as rol, c.nombre as comuna, p.created_at, p.updated_at FROM personas as p 
-    INNER JOIN roles as r ON p.rol_id = r.id INNER JOIN comunas as c ON p.comuna_id = c.id WHERE p.id = ?");
+    p.comuna_id, r.nombre as rol, c.nombre as comuna, p.created_at, p.updated_at 
+    FROM personas as p 
+    INNER JOIN roles as r ON p.rol_id = r.id 
+    INNER JOIN comunas as c ON p.comuna_id = c.id 
+    WHERE p.id = ?");
     $res->bindParam(1, $id);
     $res->execute();
     $persona = $res->fetch();
@@ -76,8 +79,8 @@ if (isset($_GET['id'])) {
             $row = $res->rowCount();
 
             if ($row) {
-                $msg = 'ok';
-                header('Location: show.php?id=' . $id . '&m=' . $msg);
+                $_SESSION['success'] = 'ok';
+                header('Location: show.php?id=' . $id);
             }
         }
 

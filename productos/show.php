@@ -142,7 +142,12 @@ if (isset($_GET['id'])) {
                             </td>
                         </tr>
                     </table>
+                    <p>
+                        <a href="index.php" class="btn btn-link">Volver</a>
+                        <a href="edit.php?id=<?php echo $id; ?>" class="btn btn-primary">Editar</a>
 
+                      
+                    </p>
                 <?php else: ?>
                     <p class="text-info">El dato solicitado no existe</p>
                 <?php endif; ?>
