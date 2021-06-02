@@ -18,25 +18,25 @@ if (isset($_GET['id'])) {
 
     //print_r($id);exit;
 
-    //consultar si hay una persona con el id enviado por GET
-    $res = $mbd->prepare("SELECT p.id, p.nombre, p.rut, p.email, p.direccion, p.fecha_nac, p.telefono, r.nombre as rol, c.nombre as comuna, p.created_at, p.updated_at 
-    FROM personas as p 
-    INNER JOIN roles as r ON p.rol_id = r.id 
-    INNER JOIN comunas as c ON p.comuna_id = c.id 
+    //consultar si hay una producto con el id enviado por GET
+    $res = $mbd->prepare("SELECT p.id ,p.sku, p.nombre, p.precio, m.nombre as marca , pt.nombre as produc, p.created_at, p.updated_at 
+    FROM productos as p 
+    INNER JOIN marcas as m ON p.marca_id = m.id
+    INNER JOIN producto_tipos as pt ON p.producto_tipo_id = pt.id 
     WHERE p.id = ?");
     $res->bindParam(1, $id);
     $res->execute();
-    $persona = $res->fetch();
+    $producto = $res->fetch();
 
-    // preguntar si persona tiene un usuario Y ES ACTIVO O NO
-    $res = $mbd->prepare("SELECT id, activo FROM usuarios WHERE persona_id = ?");
+    // preguntar si producto tiene un producto esta ACTIVO O NO
+    $res = $mbd->prepare("SELECT id, activos FROM productos WHERE id = ?");
     $res->bindParam(1, $id);
     $res->execute();
 
-    $usuario = $res->fetch();
+    $producto_act = $res->fetch();
 
     /* echo '<pre>';
-    print_r($persona);exit;
+    print_r($producto);exit;
     echo '</pre>'; */
 
 }
@@ -49,7 +49,7 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personas</title>
+    <title>Productos</title>
     <!--Enlaces CDN de Bootstrap-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script> -->
@@ -68,11 +68,11 @@ if (isset($_GET['id'])) {
         <!-- seccion de contenido principal -->
         <section>
             <div class="col-md-6 offset-md-3">
-                <h1>Personas</h1>
+                <h1>Productos</h1>
                 <!-- mensaje de registro de roles -->
                 <?php if(isset($_GET['m']) && $_GET['m'] == 'ok'): ?>
                     <div class="alert alert-success">
-                        La persona se ha modificado correctamente
+                        El producto se ha modificado correctamente
                     </div>
                 <?php endif; ?>
 
@@ -82,53 +82,39 @@ if (isset($_GET['id'])) {
 
              
                 <!-- listar los roles que estan registrados -->
-                <?php if($persona): ?>
+                <?php if($producto): ?>
                     <table class="table table-hover">
                         <tr>
+                            <th>Sku:</th>
+                            <td><?php echo $producto['sku']; ?></td>
+                        </tr>
+                        <tr>
                             <th>Nombre:</th>
-                            <td><?php echo $persona['nombre']; ?></td>
+                            <td><?php echo $producto['nombre']; ?></td>
                         </tr>
                         <tr>
-                            <th>RUT:</th>
-                            <td><?php echo $persona['rut']; ?></td>
+                            <th>Precio:</th>
+                            <td> 
+                                    $
+                                        <?php echo $producto['precio']; ?></td>
                         </tr>
                         <tr>
-                            <th>Email:</th>
-                            <td><?php echo $persona['email']; ?></td>
+                            <th>Marca:</th>
+                            <td><?php echo $producto['marca']; ?></td>
                         </tr>
                         <tr>
-                            <th>Dirección:</th>
-                            <td><?php echo $persona['direccion']; ?></td>
+                            <th>Producto:</th>
+                            <td><?php echo $producto['produc']; ?></td>
                         </tr>
-                        <tr>
-                            <th>Comuna:</th>
-                            <td><?php echo $persona['comuna']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Fecha de nacimiento:</th>
-                            <td>
-                                <?php 
-                                    $fecha_nac = new DateTime($persona['fecha_nac']);
-                                    echo $fecha_nac->format('d-m-Y'); 
-                                ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Teléfono:</th>
-                            <td><?php echo $persona['telefono']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Rol:</th>
-                            <td><?php echo $persona['rol']; ?></td>
-                        </tr>
+      
                         <tr>
                             <th>Estado:</th>
                             <td>    
-                                <?php if($usuario): ?>
-                                    <a href="../usuarios/edit.php?id=<?php echo $usuario['id'] ?>" class="btn-link bnt-sm">Modificar |</a>
+                                <?php if($producto_act): ?>
+                                    <a href="../productos/edit.php?id=<?php echo $producto_act['id'] ?>" class="btn-link bnt-sm">Modificar |</a>
                                 <?php endif; ?>
 
-                                <?php if(!empty($usuario) && $usuario['activo'] == 1): ?>
+                                <?php if(!empty($producto_act) && $producto_act['activos'] == 1): ?>
                                     Activo 
                                 <?php else: ?> 
                                     Inactivo
@@ -141,7 +127,7 @@ if (isset($_GET['id'])) {
                             <th>Creado:</th>
                             <td>
                                 <?php 
-                                    $fecha = new DateTime($persona['created_at']);
+                                    $fecha = new DateTime($producto['created_at']);
                                     echo $fecha->format('d-m-Y H:i:s'); 
                                 ?>
                             </td>
@@ -150,26 +136,13 @@ if (isset($_GET['id'])) {
                             <th>Actualizado:</th>
                             <td>
                                 <?php 
-                                    $fecha = new DateTime($persona['updated_at']);
+                                    $fecha = new DateTime($producto['updated_at']);
                                     echo $fecha->format('d-m-Y H:i:s'); 
                                 ?>
                             </td>
                         </tr>
                     </table>
-                    <p>
-                        <a href="index.php" class="btn btn-link">Volver</a>
-                        <a href="edit.php?id=<?php echo $id; ?>" class="btn btn-primary">Editar</a>
 
-                        <?php if(!$usuario): ?>
-                            <a href="../usuarios/add.php?persona=<?php echo $id; ?>"class="btn btn-primary">
-                            Agregar Password
-                            </a>
-                        <?php else: ?>
-                            <a href="../usuarios/editPassword.php?persona=<?php echo $id; ?>"class="btn btn-warning">
-                            Modificar Password
-                            </a>
-                        <?php endif; ?>
-                    </p>
                 <?php else: ?>
                     <p class="text-info">El dato solicitado no existe</p>
                 <?php endif; ?>
