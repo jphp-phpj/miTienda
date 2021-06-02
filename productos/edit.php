@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
 
     $id = (int) $_GET['id'];
 
-    $res = $mbd->prepare("SELECT p.id, p.sku, p.nombre, p.precio, m.nombre as marca , pt.nombre as produc
+    $res = $mbd->prepare("SELECT p.id, p.activo,p.marca_id,p.producto_tipo_id, p.sku, p.nombre, p.precio, m.nombre as marca , pt.nombre as produc
         FROM productos as p 
         INNER JOIN marcas as m ON p.marca_id = m.id
         INNER JOIN producto_tipos as pt ON p.producto_tipo_id = pt.id
@@ -112,20 +112,20 @@ if (isset($_GET['id'])) {
                     <form action="" method="post">
                         <div class="form-group mb-3">
                             <label for="">Sku<span class="text-danger">*</span></label> 
-                            <input type="text" name="sku" value="<?php if(isset($_POST['sku'])) echo $_POST['sku']; ?>" 
+                            <input type="text" name="sku" value=" <?php echo $producto['sku']  ?>" 
                                 class="form-control" placeholder="Ingrese el Sku del Producto">
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="">Nombre<span class="text-danger">*</span></label> 
-                            <input type="text" name="nombre" value="<?php if(isset($_POST['nombre'])) echo $_POST['nombre']; ?>" 
+                            <input type="text" name="nombre" value="<?php echo $producto['nombre'] ?>" 
                                 class="form-control" placeholder="Ingrese el Nombre del Producto">
                         </div>
 
 
                         <div class="form-group mb-3">
                             <label for="">Precio<span class="text-danger">*</span></label> 
-                            <input type="number" name="precio" value="<?php if(isset($_POST['precio'])) echo $_POST['precio']; ?>" 
+                            <input type="number" name="precio" value="<?php echo $producto['precio']  ?>" 
                                 class="form-control" placeholder="Ingrese el Precio">
                         </div>
 
@@ -134,7 +134,7 @@ if (isset($_GET['id'])) {
                         <div class="form-group mb-3">
                             <label for="">Marca<span class="text-danger">*</span></label> 
                             <select name="marca" class="form-control">
-                                <option value="">Seleccione...</option>
+                                <option value="<?php echo $producto['marca_id'] ?>"><?php echo $producto['marca'] ?></option>
                                 <?php foreach($marcas as $marc): ?>
                                     <option value="<?php echo $marc['id']; ?>">
                                     <?php echo $marc['nombre']; ?>
@@ -146,7 +146,7 @@ if (isset($_GET['id'])) {
                         <div class="form-group mb-3">
                             <label for="">Tipo de Producto<span class="text-danger">*</span></label> 
                             <select name="prod" class="form-control">
-                                <option value="">Seleccione...</option>
+                                <option value="<?php echo $producto['producto_tipo_id'] ?>"><?php echo $producto['produc'] ?></option>
                                 <?php foreach($productoTipos as $pro): ?>
                                     <option value="<?php echo $pro['id']; ?>">
                                         <?php echo $pro['nombre']; ?>
@@ -157,6 +157,23 @@ if (isset($_GET['id'])) {
 
                         <!-- and here the drop down menu ends -->
                     
+                        <div class="form-group mb-3">
+                            <label for="">Estado<span class="text-danger">*</span></label> 
+                            <select name="activo" class="form-control" id="">
+                                <option value="<?php echo $producto['activo'] ?> ">
+                                <?php if($producto['activo'] == 1): ?>
+                                    Activo 
+                                <?php else: ?>
+                                    Inactivo 
+                                <?php endif; ?>
+                                </option>
+                                <option value="1">Activar</option>
+                                <option value="2">Desactivar</option>
+                            </select>
+                        </div>
+
+
+
                         <div class="form-group mb-3">
                             <input type="hidden" name="confirm" value="1">
                             <button type="submit" class="btn btn-primary">Submit</button>

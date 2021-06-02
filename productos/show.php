@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
     $producto = $res->fetch();
 
     // preguntar si producto tiene un producto esta ACTIVO O NO
-    $res = $mbd->prepare("SELECT id, activos FROM productos WHERE id = ?");
+    $res = $mbd->prepare("SELECT id, activo FROM productos WHERE id = ?");
     $res->bindParam(1, $id);
     $res->execute();
 
@@ -110,16 +110,11 @@ if (isset($_GET['id'])) {
                         <tr>
                             <th>Estado:</th>
                             <td>    
-                                <?php if($producto_act): ?>
-                                    <a href="../productos/edit.php?id=<?php echo $producto_act['id'] ?>" class="btn-link bnt-sm">Modificar |</a>
-                                <?php endif; ?>
-
-                                <?php if(!empty($producto_act) && $producto_act['activos'] == 1): ?>
+                               <?php if(!empty($producto_act) && $producto_act['activo'] == 1): ?>
                                     Activo 
                                 <?php else: ?> 
                                     Inactivo
                                 <?php endif; ?>
-
                               
                             </td>
                         </tr>

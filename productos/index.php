@@ -105,7 +105,7 @@ echo '</pre>'; */
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <a href="add.php" class="btn btn-success">Nueva Producto</a>
+                <a href="add.php" class="btn btn-success">Agregar Producto</a>
             </div>
             
         </section>
