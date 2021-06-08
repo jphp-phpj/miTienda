@@ -7,6 +7,7 @@ session_start();
 
 require('../class/conexion.php');
 require('../class/rutas.php');
+require('../class/config.php');
 
 if (isset($_POST['confirm']) && $_POST['confirm'] == 1){
 
@@ -20,7 +21,7 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1){
         $msg = 'Ingrese su Password';
 
     }else{
-        $clave = sha1($clave);
+        $clave = HASH . sha1($clave);
 
         // consultamos por el email y password ingresados
         //estan en 2 tablas distintas

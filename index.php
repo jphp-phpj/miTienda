@@ -1,4 +1,6 @@
 <?php
+// echo uniqid();exit;
+
 ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del tag php
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);

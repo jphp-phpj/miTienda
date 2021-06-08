@@ -8,6 +8,7 @@ session_start();
 
 require('../class/conexion.php');
 require('../class/rutas.php');
+require('../class/config.php');
 
 if (isset($_GET['persona'])) {
     
@@ -31,7 +32,7 @@ if (isset($_GET['persona'])) {
             $msg = 'El password no coincide';
         }else{
             //encriptacion de password
-            $clave = sha1($clave);
+            $clave = HASH . sha1($clave);
             $id = $usuario['id'];
             //registramos al usuario con el id de persona enviado por GET
             //activo => 1 e inactivo => 2

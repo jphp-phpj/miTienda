@@ -130,7 +130,7 @@ if (isset($_GET['id'])) {
 
 
                 <?php if($persona): ?>
-                    <form action="" method="post">
+                    <form action="" method="post"> 
                         <div class="form-group mb-3">
                             <label for="">Nombre <span class="text-danger">*</span></label>
                             <input type="text" name="nombre" value="<?php echo $persona['nombre']; ?>" 

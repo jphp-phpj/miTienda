@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
 
     $id = (int) $_GET['id'];
 
-    $res = $mbd->prepare("SELECT p.id, p.activo,p.marca_id,p.producto_tipo_id, p.sku, p.nombre, p.precio, m.nombre as marca , pt.nombre as produc
+    $res = $mbd->prepare("SELECT p.id, p.sku, p.nombre, p.precio, p.activo, p.marca_id, p.producto_tipo_id, m.nombre as marca , pt.nombre as produc
         FROM productos as p 
         INNER JOIN marcas as m ON p.marca_id = m.id
         INNER JOIN producto_tipos as pt ON p.producto_tipo_id = pt.id
@@ -33,6 +33,29 @@ if (isset($_GET['id'])) {
 
     // validar formulario
     if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
+
+        $activo = (int) $_POST['activo'];
+
+        if ($activo <= 0 ) {
+            $msg = 'Seleccione una opción un estado';
+        }else{
+
+                // actualizamos el usuario con id persona enviado via get
+                // activo => 1 inactivo => 2
+            $res = $mbd->prepare("UPDATE productos SET activo = ? , updated_at = now() WHERE id = ?");
+            $res->bindParam( 1, $activo);
+            $res->bindParam( 2, $id);
+            $res->execute();
+
+            $row = $res->rowCount();
+
+            if ($row) {
+                $_SESSION['success'] = 'Estado modificado correctamente';
+                header('Location: ../productos/show.php?id=' . $producto['id']);
+            }
+        } 
+
+
 
         $sku = trim(strip_tags($_POST['sku']));
         $nombre = trim(strip_tags($_POST['nombre']));
@@ -69,6 +92,7 @@ if (isset($_GET['id'])) {
             if ($row) {
                 $_SESSION['success'] = 'ok';
                 header('Location: index.php');
+
             }
         }
     }
