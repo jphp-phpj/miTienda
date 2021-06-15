@@ -10,4 +10,5 @@ define('USUARIOS', BASE_URL . 'usuarios/');
 define('ATRIBUTOS', BASE_URL . 'atributos/');
 define('TIPOPRODUCTOS', BASE_URL . 'producto_tipos/');
 define('PRODUCTOS', BASE_URL . 'productos/');
+define('IMAGENES', BASE_URL . 'imagenes/');
 

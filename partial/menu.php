@@ -30,6 +30,7 @@
                         <li><a class="dropdown-item" href="<?php echo TIPOPRODUCTOS ?>">Tipo de Productos</a></li>
                         <li><a class="dropdown-item" href="<?php echo PERSONAS ?>">Personas</a></li>
                         <li><a class="dropdown-item" href="<?php echo PRODUCTOS ?>">Producto</a></li>
+                        <li><a class="dropdown-item" href="<?php echo IMAGENES ?>">Imagenes</a></li>
                         <li><a class="dropdown-item" href="<?php echo ROLES ?>">Roles</a></li>
                         <li><a class="dropdown-item" href="usuarios.php">Usuarios</a></li>
                     </ul>
