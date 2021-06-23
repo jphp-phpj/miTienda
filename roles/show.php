@@ -14,19 +14,16 @@ if (isset($_GET['id'])) {
 
     //recuperar el dato que viene de la variable
     $id = (int) $_GET['id'];
-
     // print_r($id);exit;
-
     // consultar si hay un ID con el id enviado por GET
-
     $res =$mbd->prepare("SELECT id, nombre, created_at, updated_at FROM roles WHERE id = ?");
     $res->bindParam(1, $id);
     $res->execute();
     $rol =$res->fetch();
     // print_r($rol);exit;
 }
-
 ?>
+
 <?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
 
 <!DOCTYPE html>
@@ -114,7 +111,6 @@ if (isset($_GET['id'])) {
     </div>
 </body>
 </html>
-
 <?php else: ?>
     <script>
         alert('Acceso Indebido');

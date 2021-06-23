@@ -18,6 +18,9 @@
                     <a class="nav-link" href="#">Contacto</a>
                 </li>
                 <li class="nav-item dropdown">
+
+                <?php if(isset($_SESSION['usuario_rol']) == 'Administrador' && $_SESSION['usuario_rol'] !='Cliente'): ?>
+
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Administración
                     </a>
@@ -25,23 +28,27 @@
                         <li><a class="dropdown-item" href="<?php echo COMUNAS ?>">Comunas</a></li>
                         <li><a class="dropdown-item" href="<?php echo REGIONES ?>">Regiones</a></li>
                         <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="<?php echo PRODUCTOS ?>">Productos</a></li>
+                        <li><a class="dropdown-item" href="<?php echo TIPOPRODUCTOS ?>">Tipo de Productos</a></li>
                         <li><a class="dropdown-item" href="<?php echo MARCAS ?>">Marcas</a></li>
                         <li><a class="dropdown-item" href="<?php echo ATRIBUTOS ?>">Atributos</a></li>
-                        <li><a class="dropdown-item" href="<?php echo TIPOPRODUCTOS ?>">Tipo de Productos</a></li>
-                        <li><a class="dropdown-item" href="<?php echo PERSONAS ?>">Personas</a></li>
-                        <li><a class="dropdown-item" href="<?php echo PRODUCTOS ?>">Producto</a></li>
-                        <li><a class="dropdown-item" href="<?php echo IMAGENES ?>">Imagenes</a></li>
+                        <li><a class="dropdown-item" href="<?php echo IMAGENES ?>">Imágenes</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="<?php echo PERSONAS ?>">Personas</a></li>                        
                         <li><a class="dropdown-item" href="<?php echo ROLES ?>">Roles</a></li>
                         <li><a class="dropdown-item" href="usuarios.php">Usuarios</a></li>
                     </ul>
                 </li>
+                <?php endif;?>
+
+
                 <?php if(!isset($_SESSION['autenticado'])): ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo USUARIOS . 'login.php' ?>" tabindex="-1" aria-disabled="false">LogIn</a>
+                    <a class="nav-link" href="<?php echo USUARIOS . 'login.php' ?>" tabindex="-1" aria-disabled="false">Log In</a>
                 </li>
                 <?php else: ?>
                     <li class="nav-item">
-                    <a class="nav-link" href="<?php echo USUARIOS . 'logout.php' ?>" tabindex="-1" aria-disabled="false">LogOut</a>
+                    <a class="nav-link" href="<?php echo USUARIOS . 'logout.php' ?>" tabindex="-1" aria-disabled="false">Log Out</a>
                 </li>
                 <?php endif; ?>
             </ul>

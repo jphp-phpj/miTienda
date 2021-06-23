@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
 
 ?>
 
-<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] != 1): ?>
+<?php if (isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] != 'Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,21 +50,17 @@ if (isset($_GET['id'])) {
         <header>
             <?php include('../partial/menu.php')  ?>
         </header>
-
         <!-- seccion de contenido principal -->
         <section>
         <div class="col-md-6 offset-md-3">
-            <h1>Informacion de Región</h1>
-
-            <!--- Lista de roles  --->
-            <?php if(isset($_GET['m']) && $_GET['m'] == 'ok'): ?>
+            <h1>Información de Región</h1>
+            <?php if (isset($_GET['m']) && $_GET['m'] == 'ok'): ?>
                 <div class="alert alert-success">
                     El registro esta correcto
                 </div>
             <?php endif; ?>
-
-                        <!--listar las regiones que estan registradas   -->
-            <?php if($reg): ?>
+                <!--listar las regiones que estan registradas   -->
+            <?php if ($reg): ?>
             <table class="table table-hover">
                 <tr>
                     <th>ID:</th>
@@ -77,7 +73,7 @@ if (isset($_GET['id'])) {
                 <tr>
                     <th>Created:</th>
                     <td>
-                        <?php 
+                        <?php
                             $fecha = new DateTime($reg['created_at']);
                             echo $fecha->format('d-m-Y H:i:s');
                         ?>        
@@ -86,7 +82,7 @@ if (isset($_GET['id'])) {
                 <tr>
                     <th>Updated:</th>
                     <td>
-                        <?php 
+                        <?php
                             $fecha = new DateTime($reg['updated_at']);
                             echo $fecha->format('d-m-Y H:i:s');
                         ?>  
@@ -95,18 +91,14 @@ if (isset($_GET['id'])) {
                 <!-- botones  -->
             <p>
                 <a href="index.php" class="btn btn-light">Volver</a>
-
                 <?php  ?>
                 <a href="edit.php?id=<?php echo $reg['id'] ?> " class="btn btn-primary">Editar</a>
                 <a href="../comunas/add.php?id=<?php echo $id; ?> " class="btn btn-success">Agregar Comuna</a>
-
             </p>
-
             <?php else: ?>
                 <p class="text-info"> El dato solicitado no existe</p>
             <?php endif; ?>
         </div>
-
         </section>
         <!-- pie de pagina -->
         <footer>

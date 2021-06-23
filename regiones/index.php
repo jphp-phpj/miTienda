@@ -15,7 +15,7 @@ $reg = $res->fetchall();  // pido a PDO que disponibilice todas las regiones reg
 ?>
 
 <!--  que usuario esta autorizado para que el codigo corra 40-> Administrador # en tabla de datos (puede variar) -->
-<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] != 1 ): ?>
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] != 'Administrador' ): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,8 +69,9 @@ $reg = $res->fetchall();  // pido a PDO que disponibilice todas las regiones reg
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <?php if($_SESSION['usuario_rol'] == 40); ?>
+            <?php if($_SESSION['usuario_rol'] == 'Cliente'): ?>
             <a href="add.php"class="btn btn-success">Nueva Región</a>
+            <?php endif; ?>
         </div>
         </section>
         <!-- pie de pagina -->

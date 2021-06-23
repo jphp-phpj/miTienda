@@ -83,15 +83,11 @@ if (isset($_GET['id'])) {
                 header('Location: show.php?id=' . $id);
             }
         }
-
-
-        /* echo '<pre>';
-        print_r($_POST);exit;
-        echo '</pre>'; */
     }
 }
-
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -210,3 +206,9 @@ if (isset($_GET['id'])) {
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

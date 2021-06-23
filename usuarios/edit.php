@@ -28,7 +28,6 @@ if (isset($_GET['id'])){
         if ($activo <= 0 ) {
             $msg = 'Seleccione una opción un estado';
         }else{
-
                 // actualizamos el usuario con id persona enviado via get
                 // activo => 1 inactivo => 2
             $res = $mbd->prepare("UPDATE usuarios SET activo = ? , updated_at = now() WHERE id = ?");
@@ -44,10 +43,7 @@ if (isset($_GET['id'])){
             }
         }   
     }
-
-    // print_r($persona);exit;
 }
-
 ?>
 
 <?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
@@ -72,7 +68,6 @@ if (isset($_GET['id'])){
         <header>
             <?php include('../partial/menu.php')  ?>
         </header>
-        
     <!-- seccion de contenido principal -->
         <section>
             <div class="col-md-6 offset-md-3">
@@ -97,8 +92,8 @@ if (isset($_GET['id'])){
                                     Inactivo |
                                 <?php endif; ?>
                                 </option>
-                                <option value="1">Activar</option>
-                                <option value="2">Desctivar</option>
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
                             </select>
                         </div>
                         <div class="form-group mb-3">

@@ -46,10 +46,8 @@ if (isset($_GET['persona'])) {
                 $_SESSION['success'] = 'El password se ha creado correctamente';
                 header('Location: ../personas/show.php?id=' . $id_persona );
             }
-
         }
     }
-
     //print_r($persona);exit;
 }
 
@@ -111,12 +109,10 @@ if (isset($_GET['persona'])) {
                     <p class="text-info">El dato solicitado no existe</p>
                 <?php endif; ?>
             </div>
-
         </section>
-
         <!-- pie de pagina -->
         <footer>
-            footer
+        <h2>-- here goes the footer --</h2>
         </footer>
     </div>
 </body>

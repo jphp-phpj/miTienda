@@ -44,10 +44,6 @@ if (isset($_GET['id'])) {
     }
 
 }
-
-    // print_r($reg);exit;
-// }    
-
 ?>
 
 <?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
@@ -96,7 +92,7 @@ if (isset($_GET['id'])) {
                         </div>
                         <div class="form-group mb-3">
                             <input type="hidden" name="confirm" value="1">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                             <a href="show.php?id=<?php echo $reg['id'] ?>" class="btn bnt-link">Volver</a>
                         </div>
                     </form>

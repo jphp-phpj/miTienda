@@ -9,12 +9,14 @@ session_start();
 require('../class/conexion.php');
 require('../class/rutas.php');
 
-// creamos la consulta a la table 
+
 $res = $mbd->query("SELECT id, nombre FROM producto_tipos ORDER BY nombre");
-$producto = $res->fetchall();  // pido a PDO que disponibilice todas las marcas registradas
+$producto = $res->fetchall();  
 
 // print_r($producto);
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -95,3 +97,9 @@ $producto = $res->fetchall();  // pido a PDO que disponibilice todas las marcas 
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

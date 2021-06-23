@@ -19,7 +19,11 @@
         $res = $mbd->query("SELECT id, nombre FROM productos ORDER BY nombre");
         $productos = $res->fetchall();
 
-        $res = $mbd->prepare("SELECT i.id, i.titulo, i.imagen, i.descripcion, i.activo, i.portada, i.producto_id, i.created_at, i.updated_at, p.nombre as producto FROM imagenes as i INNER JOIN productos as p ON i.producto_id = p.id WHERE i.id = ?");
+        $res = $mbd->prepare("SELECT i.id, i.titulo, i.imagen, i.descripcion, i.activo, i.portada, i.producto_id, i.created_at, i.updated_at, p.nombre as producto 
+        FROM imagenes as i 
+        INNER JOIN productos as p 
+        ON i.producto_id = p.id 
+        WHERE i.id = ?");
         $res->bindParam(1, $id);
         $res->execute();
         $imagen = $res->fetch();
@@ -65,6 +69,9 @@
 
 ?>
 
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
+
+
 <!-- aqui comienza el codigo del cliente -->
 <!DOCTYPE html>
 <html lang="es">
@@ -72,7 +79,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imagenes</title>
+    <title>Imágenes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </head>
@@ -137,19 +144,23 @@
                     
                     <div class="form-group">
                         <input type="hidden" name="confirm" value="1">
-                        <button type="submit" class="btn btn-primary">Enviar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
                         <a href="show.php?id=<?php echo $id; ?>" class="btn btn-link">Volver</a>
                     </div>
                 </form>
+
             <?php else: ?>
-                
                 <p class="text-info">El dato no existe</p>
-            
             <?php endif; ?>
            
         </div>
-        
     </div>
     
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "<?php echo BASE_URL; ?>";
+    </script>
+<?php endif; ?>

@@ -24,6 +24,8 @@ echo '</pre>'; */
 
 ?>
 
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -117,3 +119,9 @@ echo '</pre>'; */
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

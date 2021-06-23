@@ -44,11 +44,8 @@ if (isset($_GET['id'])) {
     }
 
 }
-
-    // print_r($rol);exit;
-// }    
-
 ?>
+
 <?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
 
 <!DOCTYPE html>
@@ -89,11 +86,11 @@ if (isset($_GET['id'])) {
                     <form action="" method="post">
                         <div class="form-group mb-3">
                             <label for="">Rol</label> <span class="text-danger">*</span>
-                            <input type="text" name="nombre" value="<?php echo $rol['nombre']; ?>" class="form-control" placeholder="Ingrese el Nombre del Rol">
+                            <input type="text" name="nombre" value="<?php echo $rol['nombre']; ?>" class="form-control" placeholder="Ingrese el nombre del Rol">
                         </div>
                         <div class="form-group mb-3">
                             <input type="hidden" name="confirm" value="1">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                             <a href="show.php?id=<?php echo $rol['id']; ?>"class="btn bnt-link">Volver</a>
                         </div>
                     </form>

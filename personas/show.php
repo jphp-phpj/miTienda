@@ -16,8 +16,6 @@ if (isset($_GET['id'])) {
     //recuperar el dato que viene en la variable id
     $id = (int) $_GET['id']; //transforma el dato $_GET a entero
 
-    //print_r($id);exit;
-
     //consultar si hay una persona con el id enviado por GET
     $res = $mbd->prepare("SELECT p.id, p.nombre, p.rut, p.email, p.direccion, p.fecha_nac, p.telefono, r.nombre as rol, c.nombre as comuna, p.created_at, p.updated_at 
     FROM personas as p 
@@ -34,10 +32,6 @@ if (isset($_GET['id'])) {
     $res->execute();
 
     $usuario = $res->fetch();
-
-    /* echo '<pre>';
-    print_r($persona);exit;
-    echo '</pre>'; */
 
 }
 

@@ -3,6 +3,7 @@ ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
 //llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
 require('../class/rutas.php');
@@ -23,6 +24,8 @@ if (isset($_GET['id'])) {
 }
 
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +54,7 @@ if (isset($_GET['id'])) {
         <!-- seccion de contenido principal -->
         <section>
         <div class="col-md-6 offset-md-3">
-            <h1>Atributo Info</h1>
+            <h1>Atributo</h1>
 
             <!--- Lista de atributos  --->
             <?php if(isset($_GET['m']) && $_GET['m'] == 'ok'): ?>
@@ -94,3 +97,9 @@ if (isset($_GET['id'])) {
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

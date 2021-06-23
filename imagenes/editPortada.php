@@ -16,7 +16,7 @@ if (isset($_GET['id'])){
 
     $res = $mbd->prepare("SELECT id, portada, producto_id FROM imagenes WHERE id = ? ");
     $res->bindParam(1,$id);
-    $res->excute();
+    $res->execute();
     $imagen = $res->fetch();
 
     if (isset($_POST['confirm']) && $_POST['confirm'] == 1){
@@ -37,7 +37,7 @@ if (isset($_GET['id'])){
                 $img = $res->fetch();
 
                 if ($img) {
-                    $_SESSION['danger'] = 'Ya existe una Imagen de portada para este producto... desactive la portada actual';
+                    $_SESSION['danger'] = 'Ya existe una Imagen como portada... desactive la portada actual';
                     header('Location: show.php?id=' . $id);
             
                 }else{
@@ -74,6 +74,9 @@ if (isset($_GET['id'])){
 }
 
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
+
 <!-- aqui comienza el codigo del cliente -->
 <!DOCTYPE html>
 <html lang="es">
@@ -82,13 +85,15 @@ if (isset($_GET['id'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Imagenes</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
         <!-- llamada a naveador del sitio -->
-        <?php include('../partials/menu.php'); ?>
+        <?php include('../partial/menu.php'); ?>
     </header>
     <div class="container">
         <div class="col-md-6 offset-md-3">
@@ -137,3 +142,9 @@ if (isset($_GET['id'])){
     
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "<?php echo BASE_URL; ?>";
+    </script>
+<?php endif; ?>

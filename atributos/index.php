@@ -3,6 +3,7 @@ ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
 //llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
 require('../class/rutas.php');
@@ -13,6 +14,8 @@ $atributo = $res->fetchall();  // pido a PDO que disponibilice todas las marcas 
 
 // print_r($atributo);
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -93,3 +96,10 @@ $atributo = $res->fetchall();  // pido a PDO que disponibilice todas las marcas 
     </div>
 </body>
 </html>
+
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

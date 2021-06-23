@@ -16,9 +16,6 @@ if (isset($_GET['id'])) {
     //recuperar el dato que viene en la variable id
     $id = (int) $_GET['id']; //transforma el dato $_GET a entero
 
-    //print_r($id);exit;
-
-    //consultar si hay una producto con el id enviado por GET
     $res = $mbd->prepare("SELECT p.id ,p.sku, p.nombre, p.precio, m.nombre as marca , pt.nombre as produc, p.created_at, p.updated_at 
     FROM productos as p 
     INNER JOIN marcas as m ON p.marca_id = m.id
@@ -28,20 +25,16 @@ if (isset($_GET['id'])) {
     $res->execute();
     $producto = $res->fetch();
 
-    // preguntar si producto tiene un producto esta ACTIVO O NO
     $res = $mbd->prepare("SELECT id, activo FROM productos WHERE id = ?");
     $res->bindParam(1, $id);
     $res->execute();
 
     $producto_act = $res->fetch();
 
-    /* echo '<pre>';
-    print_r($producto);exit;
-    echo '</pre>'; */
-
-}
+ }
 
 ?>
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -77,9 +70,6 @@ if (isset($_GET['id'])) {
                 <?php endif; ?>
 
                 <?php include('../partial/mensajes.php'); ?>
-
-
-
              
                 <!-- listar los roles que estan registrados -->
                 <?php if($producto): ?>
@@ -94,9 +84,7 @@ if (isset($_GET['id'])) {
                         </tr>
                         <tr>
                             <th>Precio:</th>
-                            <td> 
-                                    $
-                                        <?php echo $producto['precio']; ?></td>
+                            <td>$<?php echo number_format($producto['precio'],0,',','.'); ?></td>
                         </tr>
                         <tr>
                             <th>Marca:</th>
@@ -157,3 +145,9 @@ if (isset($_GET['id'])) {
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

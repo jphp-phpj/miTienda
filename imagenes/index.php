@@ -21,13 +21,16 @@ $imagenes = $res->fetchall();  // pido a PDO que disponibilice todas las Imagene
 // print_r($marc);
 ?>
 
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] !='Cliente'): ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imagenes Productos</title>
+    <title>Imágenes de Productos</title>
 
     <!--Enlaces CDN de Bootstrap-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
@@ -96,7 +99,10 @@ $imagenes = $res->fetchall();  // pido a PDO que disponibilice todas las Imagene
                     </div>
                 <?php endforeach; ?>
             </div>
-            <a href="add.php"class="btn btn-success">Nueva Imagen</a>
+            <!-- solo admin puede agregar nueva imagen -->
+            <?php if($_SESSION['usuario_rol']=='Administrador'): ?>
+                <a href="add.php"class="btn btn-success">Nueva Imagen</a>
+            <?php endif; ?>
         </div>
         <!-- pie de pagina -->
         <footer>
@@ -105,3 +111,10 @@ $imagenes = $res->fetchall();  // pido a PDO que disponibilice todas las Imagene
     </div>
 </body>
 </html>
+
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "<?php echo BASE_URL; ?>";
+    </script>
+<?php endif; ?>

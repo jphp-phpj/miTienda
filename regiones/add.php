@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del tag php
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require('../class/conexion.php');
 require('../class/rutas.php');
@@ -7,26 +10,21 @@ session_start();
 
 //validar que los datos del formulario lleguen via post
 if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
-    # code...
-    #print_r($_POST);
 
+    
     $nombre = trim(strip_tags($_POST['nombre'])); // strip tags deshabilita las tags para prevenir scrips
     
     if (!$nombre){
-    #echo 'Debe ingresar el nombre de la region';   // no se ve bien y no utilizar
         $msg = 'Debe ingresar el nombre de la Región';
     }else {
-
         // verificar que la region ingresada no existe en tabla de regiones
         $res = $mbd->prepare("SELECT id FROM regiones WHERE nombre = ?"); // '?' es una flag o incognita
         $res->bindParam(1, $nombre);
         $res->execute();
         $reg = $res->fetch();
-
         // print_r($reg);exit;
         if ($reg) {
             $msg = 'La Región ingresado ya existe, ingresar Región Nueva';
-
         }else { 
             #preparamos la consulta antes de ser enviada a la base de datos
             $res = $mbd->prepare("INSERT INTO regiones VALUES(null, ?, now(), now() )");

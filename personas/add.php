@@ -72,13 +72,17 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
             $row = $res->rowCount();
 
             if($row){
-                $msg = 'ok';
-                header('Location: index.php?m=' . $msg);
+                $_SESSION['success'] = 'La persona se ha ingresado correctamente';
+                header('Location: index.php');
             }
         }
     }
 }
 ?>
+
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -193,3 +197,10 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
     </div>
 </body>
 </html>
+
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../";
+    </script>
+<?php endif; ?>

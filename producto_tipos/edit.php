@@ -26,7 +26,7 @@ if (isset($_GET['id'])) {
         $nombre = trim(strip_tags($_POST['nombre']));
 
         if (!$nombre) {
-            $msg = 'debe ingresar el nombre de la producto_tipos';
+            $msg = 'Debe ingresar el Tipo de producto';
         } else {
             $res = $mbd->prepare("UPDATE producto_tipos SET nombre = ? WHERE id = ?");
             $res->bindParam(1, $nombre);
@@ -36,17 +36,15 @@ if (isset($_GET['id'])) {
             $row = $res->rowCount(); // recuperamos el numero de filas afectadas por la consulta
 
             if ($row) {
-                $msg = 'ok';
-                header('Location: show.php?id=' . $id . '&m=' . $msg);
+                $_SESSION['success'] = 'El tipo de producto se ha correctamente ';
+                header('Location: show.php?id=' . $id);
             }
         }
     }
 }
-
-// print_r($producto);exit;
-// }    
-
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +92,7 @@ if (isset($_GET['id'])) {
                         </div>
                         <div class="form-group mb-3">
                             <input type="hidden" name="confirm" value="1">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">GUardar</button>
                             <a href="show.php?id=<?php echo $producto['id'] ?>" class="btn bnt-link">Volver</a>
                         </div>
                     </form>
@@ -110,5 +108,10 @@ if (isset($_GET['id'])) {
         </footer>
     </div>
 </body>
-
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

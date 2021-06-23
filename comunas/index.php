@@ -2,6 +2,9 @@
 ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del tag php
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+session_start();
+
 //llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
 require('../class/rutas.php');
@@ -11,6 +14,8 @@ FROM comunas as c INNER JOIN regiones as r ON c.region_id = r.id ORDER BY comuna
 $comunas = $res->fetchall();  // pido a PDO que disponibilice todas las regiones registrados
 // print_r($reg);
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,3 +95,9 @@ $comunas = $res->fetchall();  // pido a PDO que disponibilice todas las regiones
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

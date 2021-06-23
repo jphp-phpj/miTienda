@@ -22,14 +22,13 @@ if (isset($_GET['id'])) {
     $id = (int) $_GET['id'];
 
     $res = $mbd->prepare("SELECT p.id, p.sku, p.nombre, p.precio, p.activo, p.marca_id, p.producto_tipo_id, m.nombre as marca , pt.nombre as produc
-        FROM productos as p 
-        INNER JOIN marcas as m ON p.marca_id = m.id
-        INNER JOIN producto_tipos as pt ON p.producto_tipo_id = pt.id
-        WHERE p.id = ?");
+                    FROM productos as p 
+                    INNER JOIN marcas as m ON p.marca_id = m.id
+                    INNER JOIN producto_tipos as pt ON p.producto_tipo_id = pt.id
+                    WHERE p.id = ?");
     $res->bindParam(1, $id);
     $res->execute();
     $producto = $res->fetch();
-
 
     // validar formulario
     if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
@@ -39,7 +38,6 @@ if (isset($_GET['id'])) {
         if ($activo <= 0 ) {
             $msg = 'Seleccione una opción un estado';
         }else{
-
                 // actualizamos el usuario con id persona enviado via get
                 // activo => 1 inactivo => 2
             $res = $mbd->prepare("UPDATE productos SET activo = ? , updated_at = now() WHERE id = ?");
@@ -54,8 +52,6 @@ if (isset($_GET['id'])) {
                 header('Location: ../productos/show.php?id=' . $producto['id']);
             }
         } 
-
-
 
         $sku = trim(strip_tags($_POST['sku']));
         $nombre = trim(strip_tags($_POST['nombre']));
@@ -92,12 +88,13 @@ if (isset($_GET['id'])) {
             if ($row) {
                 $_SESSION['success'] = 'ok';
                 header('Location: index.php');
-
             }
         }
     }
 }
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -188,19 +185,16 @@ if (isset($_GET['id'])) {
                                 <?php if($producto['activo'] == 1): ?>
                                     Activo 
                                 <?php else: ?>
-                                    Inactivo 
+                                    Desactivado 
                                 <?php endif; ?>
                                 </option>
                                 <option value="1">Activar</option>
                                 <option value="2">Desactivar</option>
                             </select>
                         </div>
-
-
-
                         <div class="form-group mb-3">
                             <input type="hidden" name="confirm" value="1">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                             <a href="show.php?id=<?php echo $producto['id']; ?>" class="btn bnt-link">Volver</a>
                         </div>
                     </form>
@@ -217,3 +211,9 @@ if (isset($_GET['id'])) {
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

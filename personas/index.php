@@ -8,19 +8,20 @@ error_reporting(E_ALL);
 require('../class/conexion.php');
 require('../class/rutas.php');
 
-
 session_start();
 
-//creamos la consulta a la tabla roles ordenados por nombre de manera ascendente para usar esos datos
-$res = $mbd->query("SELECT p.id, p.nombre, p.email, r.nombre as rol, c.nombre as comuna FROM personas as p 
-INNER JOIN roles as r ON p.rol_id = r.id INNER JOIN comunas as c ON p.comuna_id = c.id");
-$personas = $res->fetchall(); //pido a PDO que disponibilice todos los roles registrados
-
-/* echo '<pre>';
-print_r($personas);exit;
-echo '</pre>'; */
+$res = $mbd->query("SELECT p.id, p.nombre, p.email, r.nombre as rol, c.nombre as comuna 
+                    FROM personas as p 
+                    INNER JOIN roles as r 
+                    ON p.rol_id = r.id 
+                    INNER JOIN comunas as c 
+                    ON p.comuna_id = c.id 
+                    ORDER BY nombre");
+$personas = $res->fetchall(); 
 
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -36,7 +37,6 @@ echo '</pre>'; */
     <script src="../js/bootstrap.min.js"></script>
 </head>
 <body>
-    
     <div class="container">
         <!-- seccion de cabecera del sitio -->
         <header>
@@ -111,3 +111,9 @@ echo '</pre>'; */
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

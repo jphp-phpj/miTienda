@@ -5,35 +5,41 @@ error_reporting(E_ALL);
 
 session_start();
 
-
 require('../class/conexion.php');
 require('../class/rutas.php');
-if(isset($_GET['id'])) {
 
-    $id = (int) $_GET['id'];   // guardar variable id que viene por GET
+if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'){
+    if(isset($_GET['id'])) {
 
-    $res = $mbd->prepare("SELECT id FROM marcas WHERE id = ?"); // dont forget to close ()s []s {}s ""s ''s ``s......
-    $res->bindParam(1, $id); // sanitizar antes de ejecutar
-    $res->execute(); // ejecutar consulta
-    $marc = $res->fetch(); // recuramos la fila si existe
+        $id = (int) $_GET['id'];   // guardar variable id que viene por GET
 
-    // validamos la existencia de la marca que se dease eliminar
-    //  
-    if ($marc) {
-        // procedemos a elimnar 
-        $res = $mbd->prepare("DELETE FROM marcas WHERE id = ?");
-        $res->bindParam(1,$id); 
-        $res->execute();
+        $res = $mbd->prepare("SELECT id FROM marcas WHERE id = ?"); // dont forget to close ()s []s {}s ""s ''s ``s......
+        $res->bindParam(1, $id); // sanitizar antes de ejecutar
+        $res->execute(); // ejecutar consulta
+        $marc = $res->fetch(); // recuramos la fila si existe
 
-        $row = $res->rowCount(); 
+        // validamos la existencia de la marca que se dease eliminar
+        //  
+        if ($marc) {
+            // procedemos a elimnar 
+            $res = $mbd->prepare("DELETE FROM marcas WHERE id = ?");
+            $res->bindParam(1,$id); 
+            $res->execute();
 
-        if($row){
-            $msg = 'ok';
-            header('Location: index.php?e=' . $msg);
-        }else {
-            $error = 'error';
-            header('Location: index.php?e=' . $error);
-        }   
+            $row = $res->rowCount(); 
+
+            if($row){
+                $msg = 'ok';
+                header('Location: index.php?e=' . $msg);
+            }else {
+                $error = 'error';
+                header('Location: index.php?e=' . $error);
+            }   
+        }
     }
+}else{
+    echo "<script>
+    alert('Accesso indebido');
+    windows.location='../'
+    </script>";
 }
-

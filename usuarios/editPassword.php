@@ -27,9 +27,9 @@ if (isset($_GET['persona'])) {
         $reclave = trim(strip_tags($_POST['reclave']));
 
         if (!$clave || strlen($clave) < 8) {
-            $msg = 'Ingrese un password de al menos ocho caracteres';
+            $msg = 'Ingrese un password de al menos 10 caracteres';
         }elseif($reclave != $clave){
-            $msg = 'El password no coincide';
+            $msg = 'Los Passwords no coinciden';
         }else{
             //encriptacion de password
             $clave = HASH . sha1($clave);
@@ -49,9 +49,7 @@ if (isset($_GET['persona'])) {
             }
         }
     }
-    //print_r($persona);exit;
 }
-
 ?>
 <?php if(isset($_SESSION['autenticado']) && ($_SESSION['usuario_rol'] == 'Administrador' || $_SESSION['usuario_nombre'] == $usuario['nombre'])): ?>
 
@@ -76,10 +74,8 @@ if (isset($_GET['persona'])) {
             <!-- navegador principal -->
             <?php include('../partial/menu.php'); ?>
         </header>
-
         <!-- seccion de contenido principal -->
         <section>
-
             <div class="col-md-6 offset-md-3">
                 <!-- mensajes de validacion y errores -->
                 <?php if(isset($msg)): ?>
@@ -109,12 +105,10 @@ if (isset($_GET['persona'])) {
                     <p class="text-info">El dato solicitado no existe</p>
                 <?php endif; ?>
             </div>
-
         </section>
-
         <!-- pie de pagina -->
         <footer>
-            footer
+        <h2>-- here goes the footer --</h2>
         </footer>
     </div>
 </body>

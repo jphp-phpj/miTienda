@@ -25,8 +25,6 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
     $marca = trim(strip_tags($_POST['marca']));
     $prod = trim(strip_tags($_POST['prod']));
 
-
-
     $res = $mbd->prepare("INSERT INTO productos VALUES(null, ?, ?, ?, 1, ?, ? ,now(), now())");
     $res->bindParam(1,$sku);
     $res->bindParam(2,$nombre);
@@ -46,6 +44,8 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
 }
 
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -148,3 +148,9 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

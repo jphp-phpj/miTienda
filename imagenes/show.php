@@ -28,9 +28,9 @@ if (isset($_GET['id'])) {
     $res->execute();
     $imagen = $res->fetch();
 }
-
-
 ?>
+
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +38,7 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imagenes</title>
+    <title>Imágenes</title>
 
     <!--Enlaces CDN de Bootstrap-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
@@ -132,11 +132,13 @@ if (isset($_GET['id'])) {
                 </table>
                 <p>
                     <a href="index.php" class="btn btn-link">Volver</a>
+                    <?php if($_SESSION['usuario_rol'] == 'Administrador'): ?>
                     <a href="edit.php?id=<?php echo $imagen['id']; ?>" class="btn btn-primary">Editar</a>
                     <form action="delete.php" method="post">
                         <input type="hidden" name="id" value="<?php echo $id; ?>">
                         <input type="hidden" name="confirm" value="1">
                         <button type="submit" class="btn-warning">Eliminar</button>
+                        <?php endif;?>
                     </form>
                 </p>
             <?php else: ?>
@@ -156,3 +158,9 @@ if (isset($_GET['id'])) {
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>
