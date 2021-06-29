@@ -131,15 +131,10 @@ if (isset($_GET['id'])){
                     </div>
                 </form>
             <?php else: ?>
-                
                 <p class="text-info">El dato no existe</p>
-            
             <?php endif; ?>
-           
         </div>
-        
     </div>
-    
 </body>
 </html>
 <?php else: ?>

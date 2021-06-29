@@ -106,7 +106,7 @@ $personas = $res->fetchall();
 
         <!-- pie de pagina -->
         <footer>
-        <h2>-- here goes the footer --</h2>
+        <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>

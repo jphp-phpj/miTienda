@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
         $nombre = trim(strip_tags($_POST['nombre']));
 
         if (!$nombre) {
-            $msg = 'debe ingresar el nombre de la atributos';
+            $msg = 'Debe ingresar el nombre de la atributos';
         } else {
             $res = $mbd->prepare("UPDATE atributos SET nombre = ? WHERE id = ?");
             $res->bindParam(1, $nombre);
@@ -107,7 +107,7 @@ if (isset($_GET['id'])) {
         </section>
         <!-- pie de pagina -->
         <footer>
-            <h2>-- here goes the footer --</h2>
+        <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>

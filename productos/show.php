@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
     //recuperar el dato que viene en la variable id
     $id = (int) $_GET['id']; //transforma el dato $_GET a entero
 
-    $res = $mbd->prepare("SELECT p.id ,p.sku, p.nombre, p.precio, m.nombre as marca , pt.nombre as produc, p.created_at, p.updated_at 
+    $res = $mbd->prepare("SELECT p.id ,p.activo ,p.sku, p.nombre, p.precio, m.nombre as marca , pt.nombre as produc, p.created_at, p.updated_at 
     FROM productos as p 
     INNER JOIN marcas as m ON p.marca_id = m.id
     INNER JOIN producto_tipos as pt ON p.producto_tipo_id = pt.id 
@@ -25,11 +25,17 @@ if (isset($_GET['id'])) {
     $res->execute();
     $producto = $res->fetch();
 
-    $res = $mbd->prepare("SELECT id, activo FROM productos WHERE id = ?");
+    //lista de atributos
+    $res = $mbd->prepare("SELECT ap.id, a.nombre, ap.valor FROM atributos a INNER JOIN atributo_producto ap ON a.id = ap.atributo_id WHERE ap.producto_id = ?");
     $res->bindParam(1, $id);
     $res->execute();
+    $atributos = $res->fetchall();
 
-    $producto_act = $res->fetch();
+    //lista de imagenes
+    $res = $mbd->prepare("SELECT id FROM imagenes WHERE id = ?");
+    $res->bindParam(1, $id);
+    $res->execute();
+    $imagenes = $res->fetchall();
 
  }
 
@@ -50,7 +56,6 @@ if (isset($_GET['id'])) {
     <script src="../js/bootstrap.min.js"></script>
 </head>
 <body>
-    
     <div class="container">
         <!-- seccion de cabecera del sitio -->
         <header>
@@ -58,10 +63,8 @@ if (isset($_GET['id'])) {
             <?php include('../partial/menu.php'); ?>
         </header>
 
-        <!-- seccion de contenido principal -->
-        <section>
             <div class="col-md-6 offset-md-3">
-                <h1>Productos</h1>
+                <h2 class="text-center mt-3 text-primary">Productos</h2>
                 <!-- mensaje de registro de roles -->
                 <?php if(isset($_GET['m']) && $_GET['m'] == 'ok'): ?>
                     <div class="alert alert-success">
@@ -98,7 +101,7 @@ if (isset($_GET['id'])) {
                         <tr>
                             <th>Estado:</th>
                             <td>    
-                               <?php if(!empty($producto_act) && $producto_act['activo'] == 1): ?>
+                               <?php if(!empty($producto_act) && $producto['activo'] == 1): ?>
                                     Activo 
                                 <?php else: ?> 
                                     Inactivo
@@ -128,22 +131,38 @@ if (isset($_GET['id'])) {
                     <p>
                         <a href="index.php" class="btn btn-link">Volver</a>
                         <a href="edit.php?id=<?php echo $id; ?>" class="btn btn-primary">Editar</a>
-
-                      
+                        <a href="../atributo_producto/add.php?id_producto=<?php echo $id; ?>" class="btn btn-secondary">Agregar Atributo</a>
+                        <a href="../imagenes/add.php?id_producto=<?php echo $id; ?>" class="btn btn-success">Agregar Imagen</a>
                     </p>
                 <?php else: ?>
                     <p class="text-info">El dato solicitado no existe</p>
                 <?php endif; ?>
             </div>
-            
-        </section>
-
-        <!-- pie de pagina -->
-        <footer>
-        <h2>-- here goes the footer --</h2>
-        </footer>
+            <div class="col-md-6 offset-md-3">
+                <h2 class="text-center mt-3 text-primary">Atributos de <?php echo $producto['nombre']; ?></h2>
+                <table class="table table-hover">
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Valor</th>
+                    </tr>
+                    <?php foreach($atributos as $atributo): ?>
+                        <tr>
+                            <td><?php echo $atributo['nombre'];?></td>
+                            <td><?php echo $atributo['valor'];?></td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm">Editar</a>
+                                <a href="#" class="btn btn-primary btn-sm">Eliminar</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+   
     </div>
-</body>
+</body>        
+<footer>
+    <?php include('../partial/footer.php');  ?>
+</footer>
 </html>
 <?php else: ?>
     <script>

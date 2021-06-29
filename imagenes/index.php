@@ -106,7 +106,7 @@ $imagenes = $res->fetchall();  // pido a PDO que disponibilice todas las Imagene
         </div>
         <!-- pie de pagina -->
         <footer>
-        <h2>-- here goes the footer --</h2>
+        <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>

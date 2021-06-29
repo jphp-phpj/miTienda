@@ -37,6 +37,8 @@ if (isset($_GET['id'])) {
 
 ?>
 
+<?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] =='Administrador'): ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -72,9 +74,6 @@ if (isset($_GET['id'])) {
 
                 <?php include('../partial/mensajes.php'); ?>
 
-
-
-             
                 <!-- listar los roles que estan registrados -->
                 <?php if($persona): ?>
                     <table class="table table-hover">
@@ -173,8 +172,14 @@ if (isset($_GET['id'])) {
 
         <!-- pie de pagina -->
         <footer>
-        <h2>-- here goes the footer --</h2>
+        <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>
 </html>
+<?php else: ?>
+    <script>
+        alert('Acceso Indebido');
+        window.location = "../index.php";
+    </script>
+<?php endif; ?>

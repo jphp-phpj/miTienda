@@ -45,58 +45,36 @@ if (isset($_GET['id'])) {
     <script src="../js/bootstrap.min.js"></script>    
 </head>
 <body>
+    <header>
+        <!-- llamada a navegador del sitio -->
+        <?php include('../partials/menu.php'); ?>
+    </header>
     <div class="container">
-        <!-- Header de contenido principal -->
-        <header>
-            <?php include('../partial/menu.php')  ?>
-        </header>
-
-        <!-- seccion de contenido principal -->
-        <section>
         <div class="col-md-6 offset-md-3">
-            <h1>Atributo</h1>
-
-            <!--- Lista de atributos  --->
-            <?php if(isset($_GET['m']) && $_GET['m'] == 'ok'): ?>
-                <div class="alert alert-success">
-                    El Atributo fue editada correctamente!
-                </div>
-            <?php endif; ?>
-
-                        <!--listar los atributos registrados   -->
+            <h2 class="text-center mt-3 text-primary">Atributos</h2>
+            <?php include('../partial/mensajes.php'); ?>
+            <!-- validar que el atributo existe     -->
             <?php if($atributo): ?>
                 <table class="table table-hover">
                     <tr>
-                        <th>ID:</th>
-                        <td><?php echo $atributo['id'] ?></td>
+                        <th>Id:</th>
+                        <td> <?php echo $atributo['id']; ?>  </td>
                     </tr>
                     <tr>
                         <th>Atributo:</th>
-                        <td><?php echo $atributo['nombre'] ?></td>
+                        <td> <?php echo $atributo['nombre']; ?>  </td>
                     </tr>
-                    <tr>
- 
                 </table>
                 <p>
-                    <a href="index.php" class="btn btn-light">Volver</a>
-                    <a href="edit.php?id=<?php echo $atributo['id'] ?>" class="btn btn-primary">Editar</a>
-                    <a href="delete.php?id=<?php echo $atributo['id'] ?>" class="btn btn-warning">Eliminar</a>
+                    <a href="index.php" class="btn btn-link">Volver</a>
+                    <a href="edit.php?id=<?php echo $atributo['id']; ?>" class="btn btn-primary">Editar</a>
                 </p>
-
-                <?php else: ?>
-                    <p class="text-info">Dato no existe</p>
-                <?php endif; ?>
-
-            </div>
-
-        </section>
-        <!-- pie de pagina -->
-        <footer>
-        <h2>-- here goes the footer --</h2>
-        </footer>
+            <?php else: ?>
+                <p class="text-info">El dato no existe</p>
+            <?php endif; ?>
+        </div>
     </div>
-</body>
-</html>
+</body></html>
 <?php else: ?>
     <script>
         alert('Acceso Indebido');

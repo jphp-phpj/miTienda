@@ -90,7 +90,7 @@ $comunas = $res->fetchall();  // pido a PDO que disponibilice todas las regiones
 
         <!-- pie de pagina -->
         <footer>
-            <h2>-- here goes the footer --</h2>
+        <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>

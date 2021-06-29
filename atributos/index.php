@@ -10,7 +10,7 @@ require('../class/rutas.php');
 
 // creamos la consulta a la table 
 $res = $mbd->query("SELECT id, nombre FROM atributos ORDER BY nombre");
-$atributo = $res->fetchall();  // pido a PDO que disponibilice todas las marcas registradas
+$atributos = $res->fetchall();  // pido a PDO que disponibilice todas las marcas registradas
 
 // print_r($atributo);
 ?>
@@ -35,64 +35,42 @@ $atributo = $res->fetchall();  // pido a PDO que disponibilice todas las marcas 
     <script src="../js/bootstrap.min.js"></script>    
 </head>
 <body>
+    <!-- Header de contenido principal -->
+    <header>
+        <?php include('../partial/menu.php')  ?>
+    </header>
+        <!-- tabla de atributos registrados -->
     <div class="container">
-        <!-- Header de contenido principal -->
-        <header>
-            <?php include('../partial/menu.php')  ?>
-        </header>
-        <!-- seccion de contenido principal -->
-        <section>
         <div class="col-md-6 offset-md-3">
-            <h1>Atributos</h1>
-            <!--- mensajes de modificacion y error --->
-            <?php if(isset($_GET['m']) && $_GET['m'] == 'ok'): ?>
-                <div class="alert alert-success">
-                    El Atributo ha sido ingresado correctamente
-                </div>
-            <?php endif; ?>
+            <h2 class="text-center mt-3 text-primary">Atributos</h2>
+            <!-- generacion de mensajes de exito o error -->
+            <?php include('../partials/mensajes.php'); ?>
 
-            <?php if(isset($_GET['e']) && $_GET['e'] == 'ok'): ?>
-                <div class="alert alert-success">
-                    El Atributo fue eliminado
-                </div>
-            <?php endif; ?>
-
-            <?php if(isset($_GET['error']) && $_GET['error'] == 'error'): ?>
-                <div class="alert alert-danger">
-                    El Atributo no se elimino... intente nuevamente
-                </div>
-            <?php endif; ?>
-
-            <!-- tabla de atributos registrados -->
-            
             <table class="table table-hover">
-            <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Atributo</th>
+                    <th>Id</th>
+                    <th>Atributo</th>
                 </tr>
-            </thead>
-                <tbody>
-                    <?php foreach($atributo as $atrib): ?>
-                        <tr>
-                            <td><?php echo $atrib['id'] ?></td>
-                            <td>
-                                <a href="show.php?id=<?php echo $atrib['id']; ?>"> 
-                                    <?php echo $atrib['nombre']; ?>
-                                </a>
-                            </td>
-                        </tr>    
-                    <?php endforeach; ?>
-                </tbody>
+                <?php foreach($atributos as $atributo): ?>
+                    <tr>
+                        <td> <?php echo $atributo['id']; ?> </td>
+                        <td>
+                            <a href="show.php?id=<?php echo $atributo['id']; ?>"> <?php echo $atributo['nombre']; ?>  </a>
+                            
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </table>
-            <a href="add.php"class="btn btn-success">Nuevo Atributo</a>
-        </div>
-        </section>
 
-        <!-- pie de pagina -->
-        <footer>
-        <h2>-- here goes the footer --</h2>
-        </footer>
+            <a href="add.php" class="btn btn-primary">Nuevo Atributo</a>
+        </div>
+        
+    </div>
+
+    <!-- pie de pagina -->
+    <footer>
+    <?php include('../partial/footer.php');  ?>
+    </footer>
     </div>
 </body>
 </html>

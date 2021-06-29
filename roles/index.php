@@ -73,7 +73,7 @@ $roles = $res->fetchall();  // pido a PDO que disponibilice todos los roles regi
         </section>
         <!-- pie de pagina -->
         <footer>
-        <h2>-- here goes the footer --</h2>
+        <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>

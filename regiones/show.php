@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
 
 ?>
 
-<?php if (isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] != 'Administrador'): ?>
+<?php if (isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,7 +102,7 @@ if (isset($_GET['id'])) {
         </section>
         <!-- pie de pagina -->
         <footer>
-        <h2>-- here goes the footer --</h2>
+        <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>

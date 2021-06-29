@@ -1,0 +1,1 @@
+<h1 style="color:white; padding:40px; margin:0; text-align:center;">Footer</h1>

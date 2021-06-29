@@ -10,8 +10,6 @@ require('../class/rutas.php');
 
 //validar que los datos del formulario lleguen via post
 if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
-    # code...
-    #print_r($_POST);
 
     $nombre = trim(strip_tags($_POST['nombre'])); // strip tags deshabilita las tags para prevenir scrips
     
@@ -41,7 +39,7 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
             $row = $res->rowCount();
 
             if($row){
-                $_SESSION['success'] = 'ok';
+                $_SESSION['success'] = 'El atributo se ha registrado correctamente';
                 header('Location: index.php');
             }
         }
@@ -101,7 +99,7 @@ if (isset($_POST['confirm']) && $_POST['confirm'] == 1 ) {
 
         <!-- pie de pagina -->
         <footer>
-        <h2>-- here goes the footer --</h2>
+        <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>
