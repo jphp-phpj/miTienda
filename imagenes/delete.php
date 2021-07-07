@@ -14,7 +14,7 @@ if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador
     if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
         $id = (int) $_POST['id'];
 
-        $res = $mbd->prepare("SELECT id FROM imagenes WHERE id = ? ");
+        $res = $mbd->prepare("SELECT id, producto_id FROM imagenes WHERE id = ? ");
         $res->bindParam(1, $id);
         $res->execute();
 
@@ -29,7 +29,7 @@ if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador
 
             if ($row) {
                 $_SESSION['success'] = 'la imagen se ha eliminado correctamente';
-                header('Location: index.php');
+                header('Location: ../productos/showImages.php?producto_id=' . $imagen['producto_id']);
             }
         } else {
             $_SESSION['danger'] = 'La imagen no se ha podido eliminar... intente nuevamente';

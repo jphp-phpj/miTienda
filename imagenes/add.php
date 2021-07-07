@@ -90,7 +90,7 @@ if (isset($_GET['id_producto'])){
 
                     if ($row) {
                         $_SESSION['success'] = 'La imagen se ha registrado correctamente';
-                        header('Location: index.php');
+                        header('Location: ../productos/show.php?id=' . $id_producto);
                     }
                 }
 

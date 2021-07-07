@@ -32,7 +32,7 @@ if (isset($_GET['id'])){
                 $producto = $imagen['producto_id'];
                 $res = $mbd->prepare("SELECT id FROM imagenes WHERE producto_id = ? AND portada = 1");
                 $res->bindParam(1, $producto);
-                $res->execute;
+                $res->execute();
 
                 $img = $res->fetch();
 

@@ -42,14 +42,26 @@
 
 
                 <?php if(!isset($_SESSION['autenticado'])): ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo USUARIOS . 'login.php' ?>" tabindex="-1" aria-disabled="false">Log In</a>
-                </li>
-                <?php else: ?>
                     <li class="nav-item">
-                    <a class="nav-link" href="<?php echo USUARIOS . 'logout.php' ?>" tabindex="-1" aria-disabled="false">Log Out</a>
-                </li>
+                        <a class="nav-link" href="<?php echo USUARIOS . 'login.php' ?>" tabindex="-1" aria-disabled="false">LogIn</a>
+                    </li>
+                <?php else: ?>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?php echo ucwords($_SESSION['usuario_nombre']); ?>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li>
+                                <a class="nav-link" href="<?php echo USUARIOS . 'logout.php' ?>" tabindex="-1" aria-disabled="false">LogOut</a>
+                            </li>
+                        </ul>
+                    </div>
                 <?php endif; ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <img src="<?php echo BASE_URL . 'img/carro.png' ?>" alt="" width="20px">
+                    </a>
+                </li>
             </ul>
                         <!-- formulario del buscador -->
             <form class="d-flex">

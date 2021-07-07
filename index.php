@@ -60,25 +60,25 @@ $productos = $res->fetchall();
 
     <!-- seccion de contenido principal -->
     <section>
-        <?php if(isset($_SESSION['autenticado'])): ?>
-            <h4>Bienvenid@ a tu Tienda <?php echo $_SESSION['usuario_nombre']; ?>!</h4>
-        <?php endif; ?>
 
-        <div class="row">
-            <?php foreach($productos as $producto):?>
-            <div class="col-md-2 text-center">
-                <p class="h6 text-primary m2" >
-                <?php echo ($producto['nombre']); ?>
+    <div class="row">
+        <?php foreach($productos as $producto): ?>
+            <div class="col-md-2 text-center m-2">
+                <p class="h6 text-primary">
+                    <?php echo $producto['nombre']; ?>
                 </p>
-                <img src="<?php echo PRODUCTOS . 'img/' . $producto['imagen']; ?>" alt="" width="190px">
+                <img src="<?php echo PRODUCTOS . 'img/' . $producto['imagen']; ?>" alt="" width="190" height="120">
                 <p class="h4 text-primary mt-2">
-                    $<?php echo number_format($producto['precio'],0,',','.'); ?>
-                </p>
-                <p class="h4 text-primary">
-                    <?php echo ($producto['marca']); ?>
+                    $ <?php echo number_format($producto['precio'],0,',','.'); ?>
                 </p>
                 <p class="h5 text-primary">
-                    <?php echo ($producto['tipo']); ?>
+                    <?php echo $producto['marca']; ?>
+                </p>
+                <p class="h5 text-primary">
+                    <?php echo $producto['tipo']; ?>
+                </p>
+                <p>
+                    <a href="<?php echo PRODUCTOS . 'cotizar.php?id=' . $producto['id']; ?>" class="btn btn-secondary">Cotizar</a>
                 </p>
             </div>
             <?php endforeach; ?>
