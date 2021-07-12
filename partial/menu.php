@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-            <a class="navbar-brand" href="<?php echo BASE_URL ?>">Mi Tienda</a>
+            <a class="navbar-brand" href="<?php echo BASE_URL ?>">JP Store</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -47,7 +47,7 @@
 
                 <?php if(!isset($_SESSION['autenticado'])): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo USUARIOS . 'login.php' ?>" tabindex="-1" aria-disabled="false">LogIn</a>
+                        <a class="nav-link" href="<?php echo USUARIOS . 'login.php' ?>" tabindex="-1" aria-disabled="false">Log In</a>
                     </li>
                 <?php else: ?>
                     <div class="dropdown">
@@ -56,7 +56,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li>
-                                <a class="nav-link" href="<?php echo USUARIOS . 'logout.php' ?>" tabindex="-1" aria-disabled="false">LogOut</a>
+                                <a class="nav-link" href="<?php echo USUARIOS . 'logout.php' ?>" tabindex="-1" aria-disabled="false">Log Out</a>
                             </li>
                         </ul>
                     </div>

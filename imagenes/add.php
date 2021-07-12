@@ -16,7 +16,7 @@ if (isset($_GET['id_producto'])){
     $id_producto = (int) $_GET['id_producto'];
 
     // se verifica que el producto exista en la tabla productos, con el id_producto
-    $res = $mbd->prepare("SELECT id FROM productos WHERE id = ?");
+    $res = $mbd->prepare("SELECT id, nombre FROM productos WHERE id = ?");
     $res->bindParam(1,$id_producto);
     $res->execute();
 
@@ -121,7 +121,7 @@ if (isset($_GET['id_producto'])){
     </header>
     <div class="container">
         <div class="col-md-6 offset-md-3">
-            <h1 class="text-center mt-3 text-primary">Nueva Imagen</h1>
+            <h1 class="text-center mt-3 text-primary">Nueva Imagen de <?php echo $producto['nombre']; ?></h1>
             <!-- mostrar mensaje de error -->
             <?php if(isset($msg)): ?>
                 <p class="alert alert-danger">
@@ -135,9 +135,10 @@ if (isset($_GET['id_producto'])){
                         <label for="titulo">Título <span class="text-danger">*</span></label>
                         <input type="text" name="titulo" value="<?php if(isset($_POST['titulo'])) echo $_POST['titulo']; ?>" class="form-control" placeholder="Ingrese el título de la imagen">
                     </div>
+
                     <div class="form-group mb-3">
                         <label for="descripcion">Descripción <span class="text-danger">*</span></label>
-                        <textarea name="descripcion" class="form-control text-left" rows="4" placeholder="Ingrese la descripción de la imagen">
+                        <textarea name="descripcion" class="form-control text-left" rows="4" placeholder="Ingrese descripción">
                             <?php if(isset($_POST['descripcion'])) echo $_POST['descripcion']; ?>
                         </textarea>
                     </div>

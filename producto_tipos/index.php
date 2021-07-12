@@ -92,7 +92,7 @@ $producto = $res->fetchall();
 
         <!-- pie de pagina -->
         <footer>
-        <?php include('partial/footer.php')  ?>
+           <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>

@@ -14,11 +14,9 @@ if (isset($_GET['id'])) {
     //recuperar el dato que viene de la variable
     $id = (int) $_GET['id'];
 
-    // print_r($id);exit;
-
-    // consultar si hay un ID con el id enviado por GET
-
-    $res =$mbd->prepare("SELECT id, nombre, created_at, updated_at FROM marcas WHERE id = ?");
+    $res =$mbd->prepare("SELECT id, nombre, created_at, updated_at 
+    FROM marcas
+     WHERE id = ?");
     $res->bindParam(1, $id);
     $res->execute();
     $marc = $res->fetch();
@@ -108,7 +106,7 @@ if (isset($_GET['id'])) {
         </section>
         <!-- pie de pagina -->
         <footer>
-        <h2>-- here goes the footer --</h2>
+            <?php include('../partial/footer.php');  ?>
         </footer>
     </div>
 </body>

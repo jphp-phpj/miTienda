@@ -18,8 +18,10 @@ if (isset($_GET['id'])) {
 
     $res = $mbd->prepare("SELECT p.id ,p.activo ,p.sku, p.nombre, p.precio, m.nombre as marca , pt.nombre as produc, p.created_at, p.updated_at
     FROM productos as p 
-    INNER JOIN marcas as m ON p.marca_id = m.id
-    INNER JOIN producto_tipos as pt ON p.producto_tipo_id = pt.id 
+    INNER JOIN marcas as m 
+    ON p.marca_id = m.id
+    INNER JOIN producto_tipos as pt 
+    ON p.producto_tipo_id = pt.id 
     WHERE p.id = ?");
     $res->bindParam(1, $id);
     $res->execute();
@@ -157,7 +159,7 @@ if (isset($_GET['id'])) {
             <?php endif; ?>
         </div>
         <div class="col-md-6 offset-md-3">
-            <h2 class="text-center mt-3 text-primary">Atributos de <?php echo $producto['nombre']; ?></h2>
+            <h2 class="text-center mt-3 text-primary">Atributos de <?php echo $producto['nombre']; ?> </h2>
             <table class="table table-hover">
                 <tr>
                     <th>Atributo</th>

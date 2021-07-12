@@ -1,19 +1,18 @@
 <?php
-ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del tag php
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
 
-//llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
 require('../class/rutas.php');
 
 if (isset($_GET['id'])) {
         
-    $id = (int) $_GET['id']; //parsear la variable id a numero entero
+    $id = (int) $_GET['id']; 
 
-    //preguntamos si existe el id enviado via GET en la tabla regiones
+    //preguntamos si existe el id enviado via GET en regiones
     $res = $mbd->prepare("SELECT i.id, i.titulo, i.imagen, i.descripcion, i.activo, i.portada, i.producto_id, i.created_at, i.updated_at, p.nombre as producto, m.nombre as marca 
     FROM imagenes as i INNER JOIN productos as p ON i.producto_id = p.id INNER JOIN marcas as m ON p.marca_id = m.id WHERE i.id = ?");
     $res->bindParam(1, $id);
@@ -105,7 +104,7 @@ if (isset($_GET['id'])) {
                             <th>Creado:</th>
                             <td> 
                                 <?php 
-                                    //transformamos la fecha de la tabla imagenes en una fecha valida para php
+                                    //transformamos la fecha de imagenes en una fecha valida para php
                                     $fecha = new DateTime($imagen['created_at']);
                                     echo $fecha->format('d-m-Y H:i:s'); 
                                 ?>  
@@ -115,7 +114,7 @@ if (isset($_GET['id'])) {
                             <th>Actualizado:</th>
                             <td> 
                                 <?php 
-                                    //transformamos la fecha de la tabla imagenes en una fecha valida para php
+                                    //transformamos la fecha de imagenes en una fecha valida para php
                                     $fecha = new DateTime($imagen['updated_at']);
                                     echo $fecha->format('d-m-Y H:i:s'); 
                                 ?>  
