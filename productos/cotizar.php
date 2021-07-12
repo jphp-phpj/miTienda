@@ -16,10 +16,12 @@ if (isset($_GET['id'])) {
     //recuperar el dato que viene en la variable id
     $id = (int) $_GET['id']; //transforma el dato $_GET a entero
 
-    $res = $mbd->prepare("SELECT p.id ,p.activo ,p.sku, p.nombre, p.precio, m.nombre as marca , pt.nombre as produc, p.created_at, p.updated_at
+    $res = $mbd->prepare("SELECT p.id ,p.sku, p.nombre, p.precio, m.nombre as marca, pt.nombre as produc
     FROM productos as p 
-    INNER JOIN marcas as m ON p.marca_id = m.id
-    INNER JOIN producto_tipos as pt ON p.producto_tipo_id = pt.id 
+    INNER JOIN marcas as m 
+    ON p.marca_id = m.id
+    INNER JOIN producto_tipos as pt 
+    ON p.producto_tipo_id = pt.id 
     WHERE p.id = ?");
     $res->bindParam(1, $id);
     $res->execute();
@@ -46,15 +48,40 @@ if (isset($_GET['id'])) {
 
     if (isset($_POST['confirm']) && $_POST['confirm'] == 1) {
         if (isset($_SESSION['autenticado'])) {
-            $producto = (int) $_POST['producto'];
+            $prod = (int) $_POST['product'];
             $cantidad = filter_var($_POST['cantidad'],FILTER_VALIDATE_INT); 
             
-            if (!$cantidad) {
+            if (!$cantidad || $cantidad <= 0) {
                 $msg = 'Ingrese cantidad';
             }else{
-                $_SESSION['producto'] = $id;
-                $_SESSION['cantidad'] = $cantidad;
-            }
+                // verficar que usuario no tenga ya cotizado el mismo producto
+                $res = $mbd->prepare("SELECT id FROM carro_compras WHERE producto_id = ? AND usuario_id = ?");
+                $res->bindParam(1, $prod);
+                $res->bindParam(2, $_SESSION['usuario_id']);
+                $res->execute();
+
+                $compra = $res->fetch();
+
+                if ($compra) {
+                    $msg = 'Este producto ya ha sido cotizado';
+                }else {
+                    //estado 1 = pendiente / 2 = 
+                    $res = $mbd->prepare("INSERT INTO carro_compras(producto_id, usuario_id, cantidad, estado, created_at, updated_at) 
+                    VALUES(?,?,?,1,now(),now() ) ");
+                    $res->bindParam(1, $prod);
+                    $res->bindParam(2, $_SESSION['usuario_id']);
+                    $res->bindParam(3, $cantidad);
+                    $res->execute();
+
+                    $row = $res->rowCount();
+
+                    if ($row) {
+                        $_SESSION['success'] = 'Su producto se ha agregado correctamente';
+                        header('Location: ' . BASE_URL);
+                    }
+                }
+
+            }    
         }else{
             $msg = 'Debe iniciar sesion o registrarse';
         }
@@ -105,9 +132,7 @@ if (isset($_GET['id'])) {
                 </div>
             <?php endif; ?>
 
-            <?php include('../partial/mensajes.php'); ?>
-            
-            <!-- listar los roles que estan registrados -->
+                <!-- listar los roles que estan registrados -->
             <?php if($producto): ?>
                 <div class="row">
                     <div class="col-md-6">  
@@ -145,7 +170,7 @@ if (isset($_GET['id'])) {
                     </div>
                 </div>
 
-                
+
                 <div class="col-md-12">
 
                     <?php if(isset($msg)): ?>
@@ -154,9 +179,9 @@ if (isset($_GET['id'])) {
                 
                     <form action="" method="post"class="form-inline">
                         <div class="form-group mb-2">
-                            <input type="hidden" name="producto" value="<?php echo $producto['id']; ?>">
+                            <input type="hidden" name="product" value="<?php echo $producto['id']; ?>">
                             <input type="hidden" name="confirm" value="1">
-                            <input type="number" name="cantidad">
+                            <input type="number" name="cantidad" value="1">
                             <button type="submit" class="btn btn-success btn-sm">Agregar</button>
                         </div>
                     </form>

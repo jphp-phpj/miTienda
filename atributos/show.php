@@ -47,7 +47,7 @@ if (isset($_GET['id'])) {
 <body>
     <header>
         <!-- llamada a navegador del sitio -->
-        <?php include('../partials/menu.php'); ?>
+        <?php include('../partial/menu.php'); ?>
     </header>
     <div class="container">
         <div class="col-md-6 offset-md-3">

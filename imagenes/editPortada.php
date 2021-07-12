@@ -1,21 +1,21 @@
-<!-- aca comienza el codigo del Srv -->
 <?php
-ini_set('display_errors', 1); // esto muestra errores, codigo va justo abajo del tag php
+ini_set('display_errors', 1); 
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
 
-//llamada al archivo conexion para disponer de los datos de la base de datos.
 require('../class/conexion.php');
 require('../class/rutas.php');
 
 if (isset($_GET['id'])){
 
-    $id = (int) $_GET['id']; // convierte id a int
+    $id = (int) $_GET['id']; 
 
-    $res = $mbd->prepare("SELECT id, portada, producto_id FROM imagenes WHERE id = ? ");
-    $res->bindParam(1,$id);
+    $res = $mbd->prepare("SELECT id, portada, producto_id 
+    FROM imagenes 
+    WHERE id = ? ");
+    $res->bindParam(1, $id);
     $res->execute();
     $imagen = $res->fetch();
 
@@ -42,7 +42,9 @@ if (isset($_GET['id'])){
             
                 }else{
                     // actualizamos
-                    $res = $mbd->prepare("UPDATE imagenes SET portada = ?, updated_at = now(), WHERE id = ?");
+                    $res = $mbd->prepare("UPDATE imagenes 
+                    SET portada = ?, updated_at = now() 
+                    WHERE id = ?");
                     $res->bindParam(1, $portada);
                     $res->bindParam(2, $id);
                     $res->execute();
@@ -77,7 +79,6 @@ if (isset($_GET['id'])){
 
 <?php if(isset($_SESSION['autenticado']) && $_SESSION['usuario_rol'] == 'Administrador'): ?>
 
-<!-- aqui comienza el codigo del cliente -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -92,7 +93,6 @@ if (isset($_GET['id'])){
 </head>
 <body>
     <header>
-        <!-- llamada a naveador del sitio -->
         <?php include('../partial/menu.php'); ?>
     </header>
     <div class="container">

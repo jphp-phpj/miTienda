@@ -44,7 +44,7 @@ $atributos = $res->fetchall();  // pido a PDO que disponibilice todas las marcas
         <div class="col-md-6 offset-md-3">
             <h2 class="text-center mt-3 text-primary">Atributos</h2>
             <!-- generacion de mensajes de exito o error -->
-            <?php include('../partials/mensajes.php'); ?>
+            <?php include('../partial/mensajes.php'); ?>
 
             <table class="table table-hover">
                 <tr>

@@ -27,13 +27,17 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="<?php echo COMUNAS ?>">Comunas</a></li>
                         <li><a class="dropdown-item" href="<?php echo REGIONES ?>">Regiones</a></li>
+
                         <li><hr class="dropdown-divider"></li>
+
                         <li><a class="dropdown-item" href="<?php echo PRODUCTOS ?>">Productos</a></li>
                         <li><a class="dropdown-item" href="<?php echo TIPOPRODUCTOS ?>">Tipo de Productos</a></li>
                         <li><a class="dropdown-item" href="<?php echo MARCAS ?>">Marcas</a></li>
                         <li><a class="dropdown-item" href="<?php echo ATRIBUTOS ?>">Atributos</a></li>
                         <li><a class="dropdown-item" href="<?php echo IMAGENES ?>">Imágenes</a></li>
+
                         <li><hr class="dropdown-divider"></li>
+
                         <li><a class="dropdown-item" href="<?php echo PERSONAS ?>">Personas</a></li>                        
                         <li><a class="dropdown-item" href="<?php echo ROLES ?>">Roles</a></li>
                     </ul>
@@ -58,7 +62,7 @@
                     </div>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="<?php echo CARRO_COMPRAS . 'show.php' ?>">
                         <img src="<?php echo BASE_URL . 'img/carro.png' ?>" alt="" width="20px">
                     </a>
                 </li>
